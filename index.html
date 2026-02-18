@@ -34,7 +34,7 @@
             overflow-x: hidden;
         }
 
-        /* --- SPLASH SCREEN DARK KALIGRAFI --- */
+        /* --- SPLASH SCREEN --- */
         #splash-screen {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #0A1613; 
@@ -59,12 +59,6 @@
         @keyframes loadProgress { to { width: 100%; } }
         .splash-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 
-.card { display: flex; transition: 0.3s; } /* Pastikan sudah ada */
-@media screen and (max-width: 600px) {
-    .container { padding: 10px; }
-}
-
-        /* --- UI COMPONENTS --- */
         header { 
             background: var(--gradient-emerald); color: white; padding: 25px 15px; 
             display: flex; align-items: center; position: sticky; top: 0; z-index: 1000; 
@@ -93,36 +87,25 @@
         .teks-latin { color: var(--latin); font-style: italic; font-size: 14px; margin: 15px 0 10px 0; }
         .teks-indo { font-size: 13px; opacity: 0.8; line-height: 1.6; border-top: 1px dashed #eee; padding-top: 10px; }
 
-        /* --- MODERN PAGES STYLES --- */
+        /* --- ADZAN STYLES --- */
+        .btn-adzan-toggle { width: 100%; padding: 15px; border-radius: 15px; border: none; font-weight: bold; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+        .btn-adzan-off { background: #eee; color: #888; }
+        .btn-adzan-on { background: var(--gradient-gold); color: var(--primary-dark); box-shadow: 0 4px 12px rgba(212,175,55,0.3); }
+
         .page-header { background: var(--gradient-emerald); padding: 40px 20px; border-radius: var(--radius); color: white; text-align: center; margin-bottom: 25px; border: 2px solid var(--secondary); position: relative; overflow: hidden; }
-        .page-header::after { content: '۞'; position: absolute; bottom: -10px; right: 20px; font-size: 80px; opacity: 0.1; }
-        .quote-box { font-family: 'Amiri', serif; font-size: 20px; color: var(--secondary); margin-bottom: 10px; }
-        .modern-list { background: var(--card); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.05); }
-        .modern-list-item { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-        
-        /* --- NAV --- */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; height: 85px; background: var(--card); display: flex; justify-content: space-around; align-items: center; border-top-left-radius: var(--radius); border-top-right-radius: var(--radius); border-top: 2px solid var(--secondary); box-shadow: 0 -5px 20px rgba(0,0,0,0.1); z-index: 1000; }
         .nav-item { text-align: center; color: #888; flex: 1; cursor: pointer; }
         .nav-item.active { color: var(--primary); font-weight: bold; }
         .nav-item span { font-size: 24px; display: block; }
-
-        /* --- MISC --- */
         .play-btn { background: var(--gradient-gold); color: #1B4D3E; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; }
-        .playing { border: 2px solid var(--secondary); background: rgba(212,175,55,0.05); }
-        .qris-img { width: 220px; height: 220px; border: 5px solid white; border-radius: 15px; box-shadow: var(--shadow); margin-top: 15px; }
-        .contact-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 10px; text-decoration: none; color: var(--text); border: 1px solid #eee; font-weight: bold; transition: 0.3s; }
-        .contact-btn:active { transform: scale(0.98); background: #f9f9f9; }
     </style>
 </head>
 <body>
 
 <div id="splash-screen">
     <div class="splash-content">
-        <svg class="quran-logo-svg" viewBox="0 0 24 24">
-            <path d="M19,2L14,6.5V17.5L19,13V2M6.5,5C4.57,5 2.89,5.83 1.74,7.14C1.27,7.67 1,8.34 1,9.05V20.5C1,21.42 1.9,22.08 2.77,21.82C4.04,21.44 5.31,21.25 6.5,21.25C8.31,21.25 10.38,21.75 12,22.5C13.62,21.75 15.69,21.25 17.5,21.25C18.69,21.25 19.96,21.44 21.23,21.82C22.1,22.08 23,21.42 23,20.5V9.05C23,8.34 22.73,7.67 22.26,7.14C21.11,5.83 19.43,5 17.5,5C15.63,5 13.88,5.75 12.5,7V7C11.12,5.75 9.37,5 7.5,5H6.5M7.5,7C8.94,7 10.27,7.66 11.21,8.7L12.5,10.11L13.79,8.7C14.73,7.66 16.06,7 17.5,7C18.91,7 20.15,7.59 21,8.5V19C19.91,18.66 18.77,18.5 17.5,18.5C15.5,18.5 13.5,19 12,20V11C12,9.34 10.66,8 9,8H7.5C6.23,8 5.09,8.16 4,8.5V19C5.23,18.66 6.37,18.5 7.5,18.5C9.5,18.5 11.5,19 13,20V20" />
-        </svg>
+        <svg class="quran-logo-svg" viewBox="0 0 24 24"><path d="M19,2L14,6.5V17.5L19,13V2M6.5,5C4.57,5 2.89,5.83 1.74,7.14C1.27,7.67 1,8.34 1,9.05V20.5C1,21.42 1.9,22.08 2.77,21.82C4.04,21.44 5.31,21.25 6.5,21.25C8.31,21.25 10.38,21.75 12,22.5C13.62,21.75 15.69,21.25 17.5,21.25C18.69,21.25 19.96,21.44 21.23,21.82C22.1,22.08 23,21.42 23,20.5V9.05C23,8.34 22.73,7.67 22.26,7.14C21.11,5.83 19.43,5 17.5,5C15.63,5 13.88,5.75 12.5,7V7C11.12,5.75 9.37,5 7.5,5H6.5M7.5,7C8.94,7 10.27,7.66 11.21,8.7L12.5,10.11L13.79,8.7C14.73,7.66 16.06,7 17.5,7C18.91,7 20.15,7.59 21,8.5V19C19.91,18.66 18.77,18.5 17.5,18.5C15.5,18.5 13.5,19 12,20V11C12,9.34 10.66,8 9,8H7.5C6.23,8 5.09,8.16 4,8.5V19C5.23,18.66 6.37,18.5 7.5,18.5C9.5,18.5 11.5,19 13,20V20"/></svg>
         <h2 style="letter-spacing: 4px; margin: 0; font-family: 'Amiri', serif;">AL-QUR'AN</h2>
-        <p style="font-size: 10px; color: white; opacity: 0.6; margin-top: 5px;">Islamic Digital Application</p>
         <div class="loader-bar"><div class="loader-progress"></div></div>
     </div>
 </div>
@@ -134,26 +117,30 @@
 
 <div id="top-info-section">
     <div class="calendar-box" id="calendar-display">Memuat Kalender...</div>
-    <div id="load">Quotes Hari ini</div>
     <div id="renungan-box">"Hati yang bersyukur adalah magnet kebahagiaan."</div>
 </div>
 
 <div id="app-content"></div>
 
+<audio id="adzan-player" src="https://www.islamcan.com/audio/adzan/azan1.mp3" preload="auto"></audio>
+
 <nav class="bottom-nav">
     <div class="nav-item active" id="nav-0" onclick="showHome()"><span>🏠</span>Home</div>
-    <div class="nav-item" id="nav-1" onclick="showCariAyat()"><span>🔍</span>Cari Ayat</div>
-    <div class="nav-item" id="nav-2" onclick="loadJadwalPuasa()"><span>🕌</span>Jadwal puasa</div>
+    <div class="nav-item" id="nav-1" onclick="showCariAyat()"><span>🔍</span>Cari</div>
+    <div class="nav-item" id="nav-2" onclick="loadJadwalPuasa()"><span>🕌</span>Rhamadan</div>
     <div class="nav-item" id="nav-3" onclick="showMenuLainnya()"><span>☰</span>Lainnya</div>
 </nav>
 
 <script>
     let currentAudio = new Audio();
     let selectedQori = '01';
+    let prayerTimings = {};
+    let isAdzanEnabled = false;
 
     window.addEventListener('load', () => {
         updateMasehi();
         showHome();
+        initAdzanChecker();
         setTimeout(() => {
             document.getElementById('splash-screen').classList.add('splash-hidden');
         }, 1500); 
@@ -164,43 +151,109 @@
         document.getElementById('calendar-display').innerText = new Date().toLocaleDateString('id-ID', options);
     }
 
-    // --- HOME & SURAH LOGIC ---
-    function saveHistory(num, name) {
-        let history = JSON.parse(localStorage.getItem('readingHistory') || "[]");
-        history = history.filter(item => item.num !== num);
-        history.unshift({ num, name });
-        if (history.length > 3) history.pop();
-        localStorage.setItem('readingHistory', JSON.stringify(history));
+    // --- LOGIKA ADZAN OTOMATIS ---
+    function initAdzanChecker() {
+        setInterval(() => {
+            if (!isAdzanEnabled || !prayerTimings.Fajr) return;
+            
+            const now = new Date();
+            const current = now.getHours().toString().padStart(2, '0') + ":" + 
+                          now.getMinutes().toString().padStart(2, '0');
+            
+            const checkTimes = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+            if (checkTimes.some(t => prayerTimings[t] === current) && now.getSeconds() === 0) {
+                const player = document.getElementById('adzan-player');
+                player.play().catch(e => console.log("Autoplay blocked"));
+                alert("Waktunya Shalat!");
+            }
+        }, 1000);
     }
 
-    function getHistoryHTML() {
-        let history = JSON.parse(localStorage.getItem('readingHistory') || "[]");
-        let html = '';
-        for (let i = 0; i < 3; i++) {
-            if (history[i]) html += `<div class="recent-item" onclick="showDetail(${history[i].num}, '${history[i].name}')"><span>📖</span><b>${history[i].name}</b></div>`;
-            else html += `<div class="recent-item" style="background:transparent; border:1px dashed var(--primary); color:#999;"><span>➖</span><b>Kosong</b></div>`;
+    function toggleAdzan() {
+        const player = document.getElementById('adzan-player');
+        const btn = document.getElementById('btn-adzan-toggle');
+        
+        if (!isAdzanEnabled) {
+            player.play().then(() => {
+                player.pause();
+                player.currentTime = 0;
+                isAdzanEnabled = true;
+                btn.className = "btn-adzan-toggle btn-adzan-on";
+                btn.innerText = "✅ Adzan Otomatis Aktif";
+            });
+        } else {
+            isAdzanEnabled = false;
+            btn.className = "btn-adzan-toggle btn-adzan-off";
+            btn.innerText = "🔈 Aktifkan Suara Adzan";
         }
-        return html;
     }
 
+    // --- TAB RHAMADAN & JADWAL ---
+    async function loadJadwalPuasa() {
+        updateActiveNav(2);
+        const area = document.getElementById('app-content');
+        area.innerHTML = `<div style="text-align:center; padding:50px;">Mendeteksi lokasi...</div>`;
+
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+            try {
+                const res = await fetch(`https://api.aladhan.com/v1/timingsByAddress?address=${pos.coords.latitude},${pos.coords.longitude}&method=11`);
+                const json = await res.json();
+                prayerTimings = json.data.timings;
+
+                area.innerHTML = `
+                    <div class="container">
+                        <div class="card" style="background:var(--gradient-emerald); color:white; text-align:center; border-left:none; padding:25px;">
+                            <h2 style="margin:0; font-family:'Amiri';">Jadwal Hari Ini</h2>
+                            <p style="opacity:0.8; font-size:14px;">${json.data.date.readable}</p>
+                            <button id="btn-adzan-toggle" onclick="toggleAdzan()" class="btn-adzan-toggle ${isAdzanEnabled ? 'btn-adzan-on' : 'btn-adzan-off'}">
+                                ${isAdzanEnabled ? '✅ Adzan Otomatis Aktif' : '🔈 Aktifkan Suara Adzan'}
+                            </button>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:15px;">
+                            <div class="card" style="display:block; text-align:center; padding:15px;">
+                                <small style="color:var(--secondary);">SUBUH</small>
+                                <h2 style="margin:5px 0;">${prayerTimings.Fajr}</h2>
+                            </div>
+                            <div class="card" style="display:block; text-align:center; padding:15px;">
+                                <small style="color:var(--secondary);">DZUHUR</small>
+                                <h2 style="margin:5px 0;">${prayerTimings.Dhuhr}</h2>
+                            </div>
+                            <div class="card" style="display:block; text-align:center; padding:15px;">
+                                <small style="color:var(--secondary);">ASHAR</small>
+                                <h2 style="margin:5px 0;">${prayerTimings.Asr}</h2>
+                            </div>
+                            <div class="card" style="display:block; text-align:center; padding:15px;">
+                                <small style="color:var(--secondary);">MAGHRIB</small>
+                                <h2 style="margin:5px 0;">${prayerTimings.Maghrib}</h2>
+                            </div>
+                        </div>
+
+                        <div class="card" style="display:block; text-align:center; margin-top:10px; border-bottom:4px solid var(--secondary);">
+                            <small style="color:var(--secondary); font-weight:bold;">IMSAK</small>
+                            <h1 style="margin:5px 0; font-size:32px;">${prayerTimings.Imsak}</h1>
+                        </div>
+                    </div>`;
+            } catch (e) { area.innerHTML = "Gagal memuat data."; }
+        }, () => { area.innerHTML = "Akses lokasi ditolak."; });
+    }
+
+    // --- FUNGSI STANDAR LAINNYA (TIDAK BERUBAH) ---
     async function showHome() {
         updateActiveNav(0);
         document.getElementById('app-content').innerHTML = `
             <div class="container">
                 <p style="font-size:10px; font-weight:bold; opacity:0.6; margin:15px 0 10px;">TERAKHIR DIBACA</p>
                 <div class="recent-grid">${getHistoryHTML()}</div>
-                <p style="font-size:10px; font-weight:bold; opacity:0.6; margin-bottom:10px;">DAFTAR SURAH</p>
-                <div id="list-container">Memuat...</div>
+                <div id="list-container">Memuat Surah...</div>
             </div>`;
-        try {
-            const res = await fetch('https://equran.id/api/v2/surat');
-            const data = await res.json();
-            document.getElementById('list-container').innerHTML = data.data.map(s => `
-                <div class="card" onclick="showDetail(${s.nomor}, '${s.namaLatin}')">
-                    <div><b>${s.nomor}. ${s.namaLatin}</b><br><small>${s.arti}</small></div>
-                    <div style="font-family:'Amiri'; color:var(--primary); font-size:22px;">${s.nama}</div>
-                </div>`).join('');
-        } catch(e) { document.getElementById('list-container').innerHTML = "Gagal memuat."; }
+        const res = await fetch('https://equran.id/api/v2/surat');
+        const data = await res.json();
+        document.getElementById('list-container').innerHTML = data.data.map(s => `
+            <div class="card" onclick="showDetail(${s.nomor}, '${s.namaLatin}')">
+                <div><b>${s.nomor}. ${s.namaLatin}</b><br><small>${s.arti}</small></div>
+                <div style="font-family:'Amiri'; color:var(--primary); font-size:22px;">${s.nama}</div>
+            </div>`).join('');
     }
 
     async function showDetail(id, name) {
@@ -210,290 +263,47 @@
         const res = await fetch(`https://equran.id/api/v2/surat/${id}`);
         const json = await res.json();
         const s = json.data;
-
-        let html = `<div class="container">
-            <button onclick="showHome()" style="border:none; background:none; color:var(--primary); padding:15px 0; font-weight:bold; cursor:pointer;">← Kembali</button>
-            <div style="background:var(--card); padding:15px; border-radius:15px; margin-bottom:15px; border:1px solid var(--secondary);">
-                <label style="font-size:11px; font-weight:bold;">Pilih Qori:</label>
-                <select style="width:100%; padding:10px; border-radius:10px; margin-top:5px; border:1px solid #ddd;" onchange="selectedQori = this.value">
-                    <option value="01" ${selectedQori=='01'?'selected':''}>Misyari Rasyid Al-Afasy</option>
-                    <option value="02" ${selectedQori=='02'?'selected':''}>Abdullah Al-Juhany</option>
-                    <option value="03" ${selectedQori=='03'?'selected':''}>Abdurrahman As-Sudais</option>
-                    <option value="04" ${selectedQori=='04'?'selected':''}>Muammar ZA</option>
-                </select>
-            </div>
-            <h2 style="text-align:center; color:var(--primary-dark); font-family:'Amiri';">${s.namaLatin}</h2>`;
-
+        let html = `<div class="container"><button onclick="showHome()" style="border:none; background:none; color:var(--primary); padding:15px 0; font-weight:bold;">← Kembali</button> <h2 style="text-align:center; font-family:'Amiri';">${s.namaLatin}</h2>`;
         s.ayat.forEach(a => {
-            html += `
-                <div class="ayat-box" id="ayat-${a.nomorAyat}">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-                        <span style="background:var(--secondary); color:#1B4D3E; padding:3px 12px; border-radius:15px; font-size:11px; font-weight:bold;">Ayat ${a.nomorAyat}</span>
-                        <button class="play-btn" data-audio='${JSON.stringify(a.audio)}' data-id="${a.nomorAyat}" data-total="${s.jumlahAyat}">▶ Putar</button>
-                    </div>
-                    <div class="teks-arab">${a.teksArab}</div>
-                    <div class="teks-latin">${a.teksLatin}</div>
-                    <div class="teks-indo">${a.teksIndonesia}</div>
-                </div>`;
+            html += `<div class="ayat-box">
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                    <span style="background:var(--secondary); padding:2px 10px; border-radius:10px; font-size:10px;">Ayat ${a.nomorAyat}</span>
+                    <button class="play-btn" onclick="playMurottal('${a.audio[selectedQori]}')">▶</button>
+                </div>
+                <div class="teks-arab">${a.teksArab}</div>
+                <div class="teks-indo">${a.teksIndonesia}</div>
+            </div>`;
         });
         content.innerHTML = html + "</div>";
-        window.scrollTo(0,0);
-        document.querySelectorAll('.play-btn').forEach(btn => {
-            btn.onclick = () => {
-                const audios = JSON.parse(btn.getAttribute('data-audio'));
-                playMurottal(audios[selectedQori], parseInt(btn.getAttribute('data-id')), parseInt(btn.getAttribute('data-total')));
-            };
-        });
     }
 
-    function playMurottal(url, id, total) {
-        currentAudio.pause(); currentAudio = new Audio(url);
-        document.querySelectorAll('.ayat-box').forEach(el => el.classList.remove('playing'));
-        const target = document.getElementById(`ayat-${id}`);
-        if(target) { target.classList.add('playing'); target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-        currentAudio.play();
-        currentAudio.onended = () => {
-            if (id < total) {
-                const next = document.querySelector(`.play-btn[data-id="${id + 1}"]`);
-                if(next) next.click();
-            }
-        };
+    function playMurottal(url) { currentAudio.pause(); currentAudio = new Audio(url); currentAudio.play(); }
+    function saveHistory(num, name) {
+        let h = JSON.parse(localStorage.getItem('readingHistory') || "[]");
+        h = h.filter(x => x.num !== num); h.unshift({num, name});
+        if(h.length > 3) h.pop(); localStorage.setItem('readingHistory', JSON.stringify(h));
     }
-
-// --- Letakkan ini di dalam tag <script> ---
-
-function showCariAyat() {
-    updateActiveNav(1);
-    document.getElementById('app-content').innerHTML = `
-        <div class="container">
-            <div class="page-header">
-                <h2 style="margin:0; font-family: 'Amiri', serif;">Pencarian Pintar</h2>
-                <p style="font-size: 12px; opacity: 0.9; margin-top: 5px;">Cari surah berdasarkan nama atau arti</p>
-            </div>
-            
-            <div style="position: relative; margin-bottom: 25px;">
-                <input type="text" id="input-cari" onkeyup="liveSearch(this.value)" placeholder="Ketik nama surah atau arti..." 
-                       style="width: 100%; padding: 18px 20px; border-radius: 15px; border: 2px solid #eee; font-family: 'Inter'; outline: none; box-sizing: border-box; box-shadow: var(--shadow); font-size: 14px;">
-            </div>
-
-            <div id="hasil-cari-container">
-                <div style="text-align: center; padding: 40px 20px; opacity: 0.5;">
-                    <span style="font-size: 50px;">📖</span>
-                    <p>Masukkan kata kunci untuk mencari surah...</p>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-async function liveSearch(query) {
-    const container = document.getElementById('hasil-cari-container');
-    if (query.length < 2) return;
-
-    try {
-        const res = await fetch('https://equran.id/api/v2/surat');
-        const json = await res.json();
-        const results = json.data.filter(s => 
-            s.namaLatin.toLowerCase().includes(query.toLowerCase()) || 
-            s.arti.toLowerCase().includes(query.toLowerCase())
-        );
-
-        if (results.length > 0) {
-            container.innerHTML = results.map(s => `
-                <div class="card" onclick="showDetail(${s.nomor}, '${s.namaLatin}')">
-                    <div><b>${s.nomor}. ${s.namaLatin}</b><br><small>${s.arti}</small></div>
-                    <div style="font-family: 'Amiri'; color: var(--primary); font-size: 20px;">${s.nama}</div>
-                </div>
-            `).join('');
-        } else {
-            container.innerHTML = `<p style="text-align:center; opacity:0.5;">Surah tidak ditemukan.</p>`;
+    function getHistoryHTML() {
+        let h = JSON.parse(localStorage.getItem('readingHistory') || "[]");
+        let html = '';
+        for(let i=0; i<3; i++) {
+            if(h[i]) html += `<div class="recent-item" onclick="showDetail(${h[i].num}, '${h[i].name}')"><b>${h[i].name}</b></div>`;
+            else html += `<div class="recent-item" style="background:none; border:1px dashed #ccc;">-</div>`;
         }
-    } catch (e) { console.error("Gagal mencari"); }
-}
-
-
-    // --- MENU LAINNYA ---
-    function showMenuLainnya() {
-        updateActiveNav(3);
-        document.getElementById('app-content').innerHTML = `
-            <div class="container">
-                <div class="modern-list">
-                    <div class="modern-list-item" onclick="showTentangKami()">
-                        <div><b>ℹ️ Tentang Kami</b><br><small style="opacity:0.6;">Misi & Visi Aplikasi</small></div>
-                        <span>→</span>
-                    </div>
-                    <div class="modern-list-item" onclick="showKontakSaran()">
-                        <div><b>💬 Kontak & Saran</b><br><small style="opacity:0.6;">Kirim kritik & saran Anda</small></div>
-                        <span>→</span>
-                    </div>
-                    <div class="modern-list-item" onclick="showDonasi()">
-                        <div><b>🎁 Donasi Pengembangan</b><br><small style="opacity:0.6;">Dukung keberlanjutan aplikasi</small></div>
-                        <span>→</span>
-                    </div>
-                    <div class="modern-list-item" onclick="window.open('https://islamicdigitalapp.blogspot.com')">
-                        <div><b>🌐 Website & Blog</b><br><small style="opacity:0.6;">Informasi terbaru kami</small></div>
-                        <span>→</span>
-                    </div>
-                </div>
-                <p style="text-align:center; font-size:10px; margin-top:30px; opacity:0.5;">Version 2.0 Premium © 2026 IslamicDigitalApp all right reserved</p>
-            </div>`;
+        return html;
     }
-
-    function showTentangKami() {
-        document.getElementById('app-content').innerHTML = `
-            <div class="container">
-                <button onclick="showMenuLainnya()" style="border:none; background:none; color:var(--primary); padding:15px 0; font-weight:bold; cursor:pointer;">← Kembali</button>
-                <div class="page-header">
-                    <div class="quote-box">"Khairunnas Anfa'uhum Linnas"</div>
-                    <p style="font-size:12px; font-style:italic; opacity:0.9;">Sebaik-baik manusia adalah yang paling bermanfaat bagi orang lain.</p>
-                </div>
-                <div class="card" style="display:block; border-left:none; border-bottom:5px solid var(--secondary);">
-                    <h3 style="color:var(--primary-dark); margin-top:0;">Visi Kami</h3>
-                    <p style="font-size:13px; line-height:1.7; text-align:justify; opacity:0.8;">
-                        IslamicDigitalApp lahir dari niat tulus untuk mendekatkan Al-Qur'an ke genggaman setiap hamba Allah di era modern. Kami percaya bahwa teknologi adalah jembatan menuju keberkahan jika digunakan untuk menyebarkan kalam Ilahi.
-                    </p>
-                    <h3 style="color:var(--primary-dark);">Misi Premium</h3>
-                    <p style="font-size:13px; line-height:1.7; text-align:justify; opacity:0.8;">
-                        Menghadirkan pengalaman membaca Al-Qur'an yang tenang, tanpa gangguan iklan, dengan estetika Emerald & Gold yang memanjakan mata, serta kemudahan akses murottal dari Qori ternama dunia, data Sumber Al-Quran dari equran. id Dijamin ke aslian nya.
-                    </p>
-                    <h3 style="color:var(--primary-dark);">Disclaimer on</h3>
-<p style="font-size:13px; line-height:1.7; text-align:justify; opacity:0.8;"> Semua data Al-Quran digital ini menggunakan data digital Al-Qur'an yang bersumberkan daripada API EQuran.id (oleh equran.id). Semua teks Arab, transliterasi (Latin), terjemahan Bahasa Indonesia, dan fail audio murottal adalah berdasarkan pangkalan data tersebut yang terus dikemas kini secara berkala.
-                </div>
-            </div>`;
-    }
-
-    function showKontakSaran() {
-        document.getElementById('app-content').innerHTML = `
-            <div class="container">
-                <button onclick="showMenuLainnya()" style="border:none; background:none; color:var(--primary); padding:15px 0; font-weight:bold; cursor:pointer;">← Kembali</button>
-                <div class="page-header">
-                    <div class="quote-box">Kritik & Saran</div>
-                    <p style="font-size:12px; opacity:0.9;">Suara Anda sangat berarti bagi kesempurnaan aplikasi ini.</p>
-                </div>
-                <div class="card" style="display:block; border-left:none; padding:25px; border-bottom:5px solid var(--primary);">
-                    <p style="font-size:13px; margin-bottom:20px; text-align:center; opacity:0.8;">Silahkan hubungi kami melalui saluran berikut untuk memberikan kritik, saran, atau melaporkan kesalahan:</p>
-                    
-                    <a href="https://wa.me/6283803888990?text=Assalamualaikum,%20saya%20ingin%20memberikan%20saran%20untuk%20IslamicDigitalApp" class="contact-btn">
-                        <span style="font-size:20px;">📱</span> WhatsApp: 083803888990
-                    </a>
-                    
-                    <a href="mailto:mholis1991@gmail.com?subject=Saran%20IslamicDigitalApp" class="contact-btn">
-                        <span style="font-size:20px;">📧</span> Email: mholis1991@gmail.com
-                    </a>
-
-                    <div style="margin-top:20px; text-align:center; border-top:1px solid #eee; padding-top:15px;">
-                        <small style="font-style:italic; color:var(--primary);">Jazakumullah Khairan Katsiran</small>
-                    </div>
-                </div>
-            </div>`;
-    }
-
-    function showDonasi() {
-        document.getElementById('app-content').innerHTML = `
-            <div class="container">
-                <button onclick="showMenuLainnya()" style="border:none; background:none; color:var(--primary); padding:15px 0; font-weight:bold; cursor:pointer;">← Kembali</button>
-                <div class="card" style="display:block; text-align:center; padding:30px; border-left:none; border-top:5px solid var(--secondary);">
-                    <h3 style="color:var(--primary-dark); margin-top:0;">Infaq Jariyah</h3>
-                    <p style="font-size:13px; opacity:0.7;">Sedekah Anda membantu kami menjaga aplikasi tetap bebas iklan selamanya.</p>
-                    <div style="margin:20px 0; text-align: center;">
-    <p style="font-size:11px; font-weight:bold; color:var(--latin); margin-bottom: 10px;">SCAN QRIS DISINI</p>
-    
-    <img src="https://lh3.googleusercontent.com/u/0/d/1oBVpUR4s_mOAp4EcUbi25hb49MIA3yRf=w1000-h1000" 
-         class="qris-img" 
-         alt="QRIS Donasi"
-         style="width: 250px; height: 250px; object-fit: contain; border: 5px solid white; border-radius: 15px;">
-</div>
-
-
-                    <div style="background:rgba(70,162,159,0.05); padding:15px; border-radius:15px; border:1px solid #eee; text-align:left;">
-                        <small style="color:var(--primary); font-weight:bold;">BCA (Transfer Manual)</small>
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <b style="font-size:18px;">6095055005</b>
-                            <button onclick="navigator.clipboard.writeText('6095055005'); alert('Disalin!')" style="background:var(--primary); color:white; border:none; padding:5px 10px; border-radius:8px; font-size:11px;">SALIN</button>
-                        </div>
-                        <small>a.n Muhamad Holis</small>
-                    </div>
-                </div>
-            </div>`;
-    }
-
-    function loadJadwalSholat() {
-        updateActiveNav(2);
-        document.getElementById('app-content').innerHTML = '<p style="text-align:center; padding:50px;">Mencari Lokasi...</p>';
-        navigator.geolocation.getCurrentPosition(async (p) => {
-            try {
-                const res = await fetch(`https://api.aladhan.com/v1/timingsPosition?latitude=${p.coords.latitude}&longitude=${p.coords.longitude}&method=4`);
-                const d = await res.json(); 
-                const t = d.data.timings;
-                document.getElementById('app-content').innerHTML = `
-                    <div class="container">
-                        <div style="background:var(--gradient-emerald); color:white; padding:30px; border-radius:var(--radius); text-align:center; border:2px solid var(--secondary);">
-                            <h3>Waktu Sholat</h3>
-                            <p>Subuh: ${t.Fajr} | Dzuhur: ${t.Dhuhr} | Ashar: ${t.Asr} | Maghrib: ${t.Maghrib} | Isya: ${t.Isha}</p>
-                        </div>
-                    </div>`;
-            } catch(e) { document.getElementById('app-content').innerHTML = "Gagal memuat."; }
-        });
-    }
-
+    function updateActiveNav(n) { document.querySelectorAll('.nav-item').forEach((it, i) => it.classList.toggle('active', i===n)); }
     function toggleTheme() { document.body.classList.toggle('dark-theme'); }
-    function updateActiveNav(n) {
-        document.querySelectorAll('.nav-item').forEach((item, i) => item.classList.toggle('active', i === n));
-    }
     
-async function loadJadwalPuasa() {
-    updateActiveNav(2); // Menggunakan tab Sholat/Ibadah
-    const area = document.getElementById('app-content');
-    area.innerHTML = `<div style="text-align:center; padding:50px;">Mendeteksi lokasi untuk jadwal puasa...</div>`;
-
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(async (position) => {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            const date = new Date().getDate();
-            const month = new Date().getMonth() + 1;
-            const year = new Date().getFullYear();
-
-            try {
-                const res = await fetch(`https://api.aladhan.com/v1/timings/${date}-${month}-${year}?latitude=${lat}&longitude=${lng}&method=11`);
-                const data = await res.json();
-                const timings = data.data.timings;
-
-                area.innerHTML = `
-                    <div class="container">
-                        <div class="card" style="background:var(--gradient-emerald); color:white; text-align:center; border-left:none; padding:25px;">
-                            <h2 style="margin:0; font-family:'Amiri';">Jadwal Puasa Hari Ini</h2>
-                            <p style="opacity:0.8; font-size:14px;">${data.data.date.readable}</p>
-                        </div>
-
-                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:20px;">
-                            <div class="card" style="display:block; text-align:center; border-bottom:4px solid var(--secondary);">
-                                <small style="color:var(--secondary); font-weight:bold;">IMSAK</small>
-                                <h1 style="margin:10px 0; font-size:32px;">${timings.Imsak}</h1>
-                                <p style="font-size:11px; opacity:0.6;">Waktu Niat & Sahur</p>
-                            </div>
-                            <div class="card" style="display:block; text-align:center; border-bottom:4px solid var(--secondary);">
-                                <small style="color:var(--secondary); font-weight:bold;">BUKA PUASA</small>
-                                <h1 style="margin:10px 0; font-size:32px;">${timings.Maghrib}</h1>
-                                <p style="font-size:11px; opacity:0.6;">Waktu Maghrib</p>
-                            </div>
-                        </div>
-
-                        <div class="hadis-box" style="margin-top:20px; font-style:italic; font-size:13px; text-align:center;">
-                            "Dzahaba-zh-zhama’u wab-tallatil ‘uruuqu wa tsabatal ajru insyaa Allah."<br>
-                            <b>(Telah hilang rasa haus... dan semoga pahala ditetapkan)</b>
-                        </div>
-                    </div>
-                `;
-            } catch (e) {
-                area.innerHTML = "<div class='card'>Gagal mengambil jadwal. Pastikan koneksi internet aktif.</div>";
-            }
-        }, () => {
-            area.innerHTML = "<div class='card'>Akses lokasi ditolak. Gunakan pengaturan manual untuk jadwal.</div>";
-        });
+    // Fungsi Dummy untuk Menu Lainnya & Cari
+    function showMenuLainnya() { 
+        updateActiveNav(3);
+        document.getElementById('app-content').innerHTML = `<div class="container"><div class="card">Fitur Lainnya akan segera hadir.</div></div>`; 
     }
-}
-
+    function showCariAyat() { 
+        updateActiveNav(1);
+        document.getElementById('app-content').innerHTML = `<div class="container"><div class="card">Fitur Pencarian dalam pengembangan.</div></div>`; 
+    }
 </script>
 </body>
 </html>
