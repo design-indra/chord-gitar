@@ -467,10 +467,11 @@ async function loadJadwalPuasa() {
                         <div class="card" style="background:var(--gradient-emerald); color:white; text-align:center; border-left:none; padding:25px;">
                             <h2 style="margin:0; font-family:'Amiri';">Jadwal Puasa Hari Ini</h2>
                             <p style="opacity:0.8; font-size:14px;">${data.data.date.readable}</p>
-                            <button onclick="document.getElementById('adzan-player').play().then(()=>document.getElementById('adzan-player').pause())" 
-                                    style="margin-top:10px; padding:8px 15px; border-radius:10px; border:none; background:var(--secondary); color:var(--primary-dark); font-weight:bold; font-size:12px; cursor:pointer;">
-                                🔔 Aktifkan Suara Adzan
-                            </button>
+                            <button onclick="let p = document.getElementById('adzan-player'); p.play().then(()=>{p.pause(); p.currentTime=0; alert('Suara Adzan Berhasil Diaktifkan!')}).catch(e=>alert('Error: ' + e))" 
+        style="margin-top:10px; padding:8px 15px; border-radius:10px; border:none; background:var(--secondary); color:var(--primary-dark); font-weight:bold; font-size:12px; cursor:pointer;">
+    🔔 Aktifkan Suara Adzan
+</button>
+
                         </div>
 
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:20px;">
