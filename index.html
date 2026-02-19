@@ -145,6 +145,7 @@
     <div class="nav-item" id="nav-1" onclick="showCariAyat()"><span>🔍</span>Cari Ayat</div>
     <div class="nav-item" id="nav-2" onclick="loadJadwalPuasa()"><span>🕌</span>Rhamadan</div>
     <div class="nav-item" id="nav-3" onclick="showMenuLainnya()"><span>☰</span>Lainnya</div>
+    <div class='nav-item' id='nav-3' onclick='showMurottal()'><span>🎧</span>Murottal</div>
 </nav>
 
 <script>
@@ -513,6 +514,54 @@ async function loadJadwalPuasa() {
         }, () => {
             area.innerHTML = "<div class='card'>Akses lokasi ditolak.</div>";
         });
+    }
+}
+function showMurottal() {
+    updateActiveNav(3); // Sesuaikan index menu "Lainnya" atau menu baru
+    const container = document.getElementById('app-content');
+    
+    // Header dan Search Bar
+    container.innerHTML = `
+        <div class="container">
+            <div style="position: sticky; top: 70px; z-index: 100; background: var(--bg); padding: 10px 0;">
+                <input type="text" id="cariSurah" onkeyup="filterSurah()" placeholder="🔍 Cari Surah Murottal..." 
+                style="width: 100%; padding: 12px 20px; border-radius: 30px; border: 2px solid var(--primary); outline: none; box-shadow: var(--shadow); font-size: 14px; background: var(--card); color: var(--text);">
+            </div>
+            <div id="daftarMurottal" style="display: grid; gap: 12px; margin-top: 10px;"></div>
+        </div>
+    `;
+
+    const listContainer = document.getElementById('daftarMurottal');
+    const surahNames = ["Al-Fatihah","Al-Baqarah","Ali 'Imran","An-Nisa'","Al-Ma'idah","Al-An'am","Al-A'raf","Al-Anfal","At-Taubah","Yunus","Hud","Yusuf","Ar-Ra'd","Ibrahim","Al-Hijr","An-Nahl","Al-Isra'","Al-Kahf","Maryam","Thaha","Al-Anbiya'","Al-Hajj","Al-Mu'minun","An-Nur","Al-Furqan","Asy-Syu'ara'","An-Naml","Al-Qashash","Al-'Ankabut","Ar-Rum","Luqman","As-Sajdah","Al-Ahzab","Saba'","Fathir","Ya Sin","Ash-Shaffat","Shad","Az-Zumar","Ghafir","Fushshilat","Asy-Syura","Az-Zukhruf","Ad-Dukhan","Al-Jatsiyah","Al-Ahqaf","Muhammad","Al-Fath","Al-Hujurat","Qaf","Adz-Dzariyat","Ath-Thur","An-Najm","Al-Qamar","Ar-Rahman","Al-Waqi'ah","Al-Hadid","Al-Mujadilah","Al-Hasyr","Al-Mumtahanah","Ash-Shaff","Al-Jumu'ah","Al-Munafiqun","At-Taghabun","At-Thalaq","At-Tahrim","Al-Mulk","Al-Qalam","Al-Haqqah","Al-Ma'arij","Nuh","Al-Jinn","Al-Muzzammil","Al-Muddatstsir","Al-Qiyamah","Al-Insan","Al-Mursalat","An-Naba'","An-Nazi'at","'Abasa","At-Takwir","Al-Infithar","Al-Muthaffifin","Al-Insyiqaq","Al-Buruj","Ath-Thariq","Al-A'la","Al-Ghasyiyah","Al-Fajr","Al-Balad","Asy-Syams","Al-Lail","Ad-Duha","Asy-Syarh","At-Tin","Al-'Alaq","Al-Qadr","Al-Bayyinah","Az-Zalzalah","Al-'Adiyat","Al-Qari'ah","At-Takatsur","Al-'Asr","Al-Humazah","Al-Fil","Quraisy","Al-Ma'un","Al-Kautsar","Al-Kafirun","An-Nashr","Al-Lahab","Al-Ikhlas","Al-Falaq","An-Nas"];
+
+    let html = '';
+    for (let i = 1; i <= 114; i++) {
+        let noSurah = i.toString().padStart(3, '0');
+        let namaSurah = surahNames[i-1];
+
+        html += `
+          <div class="item-surah card" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 15px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="background: var(--primary); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold;">
+                ${i}
+              </div>
+              <strong style="font-size: 14px;">${namaSurah}</strong>
+            </div>
+            <audio controls style="height: 30px; width: 140px;">
+              <source src="https://server8.mp3quran.net/afs/${noSurah}.mp3" type="audio/mpeg">
+            </audio>
+          </div>
+        `;
+    }
+    listContainer.innerHTML = html;
+}
+
+function filterSurah() {
+    let input = document.getElementById('cariSurah').value.toLowerCase();
+    let items = document.getElementsByClassName('item-surah');
+    for (let i = 0; i < items.length; i++) {
+        let text = items[i].innerText.toLowerCase();
+        items[i].style.display = text.includes(input) ? "flex" : "none";
     }
 }
 
