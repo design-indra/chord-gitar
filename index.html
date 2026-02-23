@@ -220,8 +220,9 @@
 
 <div id="top-info-section">
     <div class="calendar-box" id="calendar-display">Memuat Kalender...</div>
-    <div id="adz">Quotes hari ini</div>
-    <div id="renungan-box">"Hati yang bersyukur adalah magnet kebahagiaan."</div>
+    <div id="adz" style="font-size:11px; opacity:0.55; margin: 6px 0 4px;">✨ Quotes Jam Ini</div>
+    <div id="renungan-box" style="transition: opacity 0.6s ease; min-height: 40px; font-style:italic; font-size:13px; line-height:1.6;"></div>
+    <div id="jam-ganti" style="font-size:10px; opacity:0.4; margin-top:6px;"></div>
 </div>
 
 <div id="app-content"></div>
@@ -282,12 +283,74 @@
         { juz: 30, start: {surah: 78, ayat: 1},   end: {surah: 114, ayat: 6},  firstWord: "عَمَّ" },
     ];
 
+    // --- 24 QUOTES ISLAMI (berganti tiap jam) ---
+    const quotesPerJam = [
+        { teks: '"Sesungguhnya setelah kesulitan ada kemudahan." (QS. Al-Insyirah: 6)', jam: '00.00' },
+        { teks: '"Barangsiapa bertakwa kepada Allah, niscaya Dia akan membukakan jalan keluar baginya." (QS. Ath-Thalaq: 2)', jam: '01.00' },
+        { teks: '"Cukuplah Allah sebagai pelindung kami, dan Dialah sebaik-baik pelindung." (QS. Ali Imran: 173)', jam: '02.00' },
+        { teks: '"Dan hanya kepada Tuhanmu hendaklah engkau berharap." (QS. Al-Insyirah: 8)', jam: '03.00' },
+        { teks: '"Bangunlah di malam hari sebagai ibadah tambahan bagimu; mudah-mudahan Tuhanmu mengangkatmu ke tempat yang terpuji." (QS. Al-Isra: 79)', jam: '04.00' },
+        { teks: '"Dirikanlah shalat karena shalat itu mencegah perbuatan keji dan mungkar." (QS. Al-Ankabut: 45)', jam: '05.00' },
+        { teks: '"Dan apabila hamba-hamba-Ku bertanya kepadamu tentang Aku, maka sesungguhnya Aku dekat." (QS. Al-Baqarah: 186)', jam: '06.00' },
+        { teks: '"Allah tidak membebani seseorang melainkan sesuai dengan kesanggupannya." (QS. Al-Baqarah: 286)', jam: '07.00' },
+        { teks: '"Sesungguhnya Allah bersama orang-orang yang sabar." (QS. Al-Baqarah: 153)', jam: '08.00' },
+        { teks: '"Boleh jadi kamu tidak menyenangi sesuatu, padahal itu baik bagimu." (QS. Al-Baqarah: 216)', jam: '09.00' },
+        { teks: '"Sesungguhnya Allah tidak akan mengubah keadaan suatu kaum sebelum mereka mengubah keadaan diri mereka sendiri." (QS. Ar-Ra\'d: 11)', jam: '10.00' },
+        { teks: '"Dan bersabarlah, karena sesungguhnya Allah tidak menyia-nyiakan pahala orang yang berbuat kebaikan." (QS. Hud: 115)', jam: '11.00' },
+        { teks: '"Janganlah kamu berduka cita, sesungguhnya Allah bersama kita." (QS. At-Taubah: 40)', jam: '12.00' },
+        { teks: '"Sebaik-baik manusia adalah yang paling bermanfaat bagi orang lain." (HR. Ahmad & Ath-Thabrani)', jam: '13.00' },
+        { teks: '"Katakanlah: Wahai hamba-hamba-Ku yang melampaui batas, janganlah kamu berputus asa dari rahmat Allah." (QS. Az-Zumar: 53)', jam: '14.00' },
+        { teks: '"Dan bersyukurlah atas nikmat Allah, jika kamu hanya menyembah kepada-Nya." (QS. An-Nahl: 114)', jam: '15.00' },
+        { teks: '"Ingatlah, hanya dengan mengingat Allah hati menjadi tentram." (QS. Ar-Ra\'d: 28)', jam: '16.00' },
+        { teks: '"Barang siapa yang bertawakal kepada Allah, maka Allah akan mencukupkan keperluannya." (QS. Ath-Thalaq: 3)', jam: '17.00' },
+        { teks: '"Sesungguhnya shalat itu adalah kewajiban yang ditentukan waktunya bagi orang-orang yang beriman." (QS. An-Nisa: 103)', jam: '18.00' },
+        { teks: '"Dan di antara tanda-tanda kekuasaan-Nya adalah Dia menciptakan untuk kamu malam supaya kamu beristirahat." (QS. Ar-Rum: 23)', jam: '19.00' },
+        { teks: '"Bacalah dengan menyebut nama Tuhanmu yang menciptakan." (QS. Al-\'Alaq: 1)', jam: '20.00' },
+        { teks: '"Sesungguhnya orang-orang mukmin adalah bersaudara, maka damaikanlah antara kedua saudaramu." (QS. Al-Hujurat: 10)', jam: '21.00' },
+        { teks: '"Dan bertasbihlah dengan memuji Tuhanmu sebelum terbit matahari dan sebelum terbenam." (QS. Qaf: 39)', jam: '22.00' },
+        { teks: '"Maka nikmat Tuhanmu yang manakah yang kamu dustakan?" (QS. Ar-Rahman: 13)', jam: '23.00' },
+    ];
+
+    function updateQuotes() {
+        const jam = new Date().getHours(); // 0–23
+        const q = quotesPerJam[jam];
+        const box = document.getElementById('renungan-box');
+        const jamEl = document.getElementById('jam-ganti');
+
+        // Fade out → ganti → fade in
+        box.style.opacity = '0';
+        setTimeout(() => {
+            box.innerText = q.teks;
+            box.style.opacity = '1';
+        }, 400);
+
+        // Hitung menit tersisa sampai jam berikutnya
+        const mnt = new Date().getMinutes();
+        const sisaMenit = 60 - mnt;
+        jamEl.innerText = `🕐 Berganti dalam ${sisaMenit} menit`;
+    }
+
     window.addEventListener('load', () => {
         updateMasehi();
+        updateQuotes();
         showHome();
         setTimeout(() => {
             document.getElementById('splash-screen').classList.add('splash-hidden');
-        }, 1500); 
+        }, 1500);
+
+        // Cek setiap menit, ganti quotes kalau jam berubah
+        let jamTerakhir = new Date().getHours();
+        setInterval(() => {
+            const jamSekarang = new Date().getHours();
+            if (jamSekarang !== jamTerakhir) {
+                jamTerakhir = jamSekarang;
+                updateQuotes();
+            }
+            // Update sisa menit setiap menit
+            const mnt = new Date().getMinutes();
+            const el = document.getElementById('jam-ganti');
+            if (el) el.innerText = `🕐 Berganti dalam ${60 - mnt} menit`;
+        }, 60000);
     });
 
     function updateMasehi() {
