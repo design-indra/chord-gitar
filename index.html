@@ -455,7 +455,8 @@ function toggleBM(key) {
   var d = STORE[key];
   if (!d) { toast('⚠️ Data tidak ditemukan'); return; }
   var btn = document.getElementById('bm_' + key);
-  var idx = BM.findIndex(function(b) { return b.key === key; });
+  var idx = -1;
+  for (var i = 0; i < BM.length; i++) { if (BM[i].key === key) { idx = i; break; } }
   if (idx > -1) {
     BM.splice(idx, 1);
     if (btn) { btn.textContent = '🔖 Simpan'; btn.classList.remove('bmd'); }
@@ -560,7 +561,7 @@ function loadBook(id, fullName, total, page) {
 
       hadiths.forEach(function(item) {
         var key = id + '_' + item.number;
-        var isBM = BM.some(function(b) { return b.key === key; });
+        var isBM = false; for(var _i=0;_i<BM.length;_i++){if(BM[_i].key===key){isBM=true;break;}}
         var tx = (LANG === 'en' && STORE[key].en) ? STORE[key].en : item.id;
         h += '<div class="hbox" id="h' + item.number + '">'
           + '<div class="hbadge">' + item.number + '</div>'
@@ -568,9 +569,9 @@ function loadBook(id, fullName, total, page) {
           + '<div class="arab">' + item.arab + '</div>'
           + '<p class="htx">' + tx + '</p>'
           + '<div class="hacts">'
-          + '<button class="hbtn ' + (isBM ? 'bmd' : '') + '" id="bm_' + key + '" onclick="toggleBM(\"' + key + '\")">' + (isBM ? '🔖 Tersimpan' : '🔖 Simpan') + '</button>'
-          + '<button class="hbtn" onclick="openShare(getShareTxt(\"' + key + '\"))">📤 Share</button>'
-          + '<button class="hbtn" onclick="doCopy(getShareTxt(\"' + key + '\"))">📋 Salin</button>'
+          + '<button class="hbtn ' + (isBM ? 'bmd' : '') + '" id="bm_' + key + '" data-key="' + key + '" onclick="toggleBM(this.dataset.key)">' + (isBM ? '🔖 Tersimpan' : '🔖 Simpan') + '</button>'
+          + '<button class="hbtn" data-key="' + key + '" onclick="openShare(getShareTxt(this.dataset.key))">📤 Share</button>'
+          + '<button class="hbtn" data-key="' + key + '" onclick="doCopy(getShareTxt(this.dataset.key))">📋 Salin</button>'
           + '</div></div>';
       });
 
@@ -630,16 +631,16 @@ function doSearchNum() {
       BOOKS.forEach(function(b) { if (b.id === k) bName = b.full; });
       var key = k + '_' + item.number;
       STORE[key] = { bookName: bName, num: item.number, arab: item.arab, id: item.id, en: '' };
-      var isBM = BM.some(function(b) { return b.key === key; });
+      var isBM = false; for(var _i=0;_i<BM.length;_i++){if(BM[_i].key===key){isBM=true;break;}}
       res.innerHTML = '<div class="hbox">'
         + '<div class="hbadge">' + item.number + '</div>'
         + '<div class="htag">' + bName.replace('HR. ', '') + '</div>'
         + '<div class="arab">' + item.arab + '</div>'
         + '<p class="htx">' + item.id + '</p>'
         + '<div class="hacts">'
-        + '<button class="hbtn ' + (isBM ? 'bmd' : '') + '" id="bm_' + key + '" onclick="toggleBM(\"' + key + '\")">' + (isBM ? '🔖 Tersimpan' : '🔖 Simpan') + '</button>'
-        + '<button class="hbtn" onclick="openShare(getShareTxt(\"' + key + '\"))">📤 Share</button>'
-        + '<button class="hbtn" onclick="doCopy(getShareTxt(\"' + key + '\"))">📋 Salin</button>'
+        + '<button class="hbtn ' + (isBM ? 'bmd' : '') + '" id="bm_' + key + '" data-key="' + key + '" onclick="toggleBM(this.dataset.key)">' + (isBM ? '🔖 Tersimpan' : '🔖 Simpan') + '</button>'
+        + '<button class="hbtn" data-key="' + key + '" onclick="openShare(getShareTxt(this.dataset.key))">📤 Share</button>'
+        + '<button class="hbtn" data-key="' + key + '" onclick="doCopy(getShareTxt(this.dataset.key))">📋 Salin</button>'
         + '</div></div>';
     })
     .catch(function() {
@@ -675,8 +676,8 @@ function doSearchTxt() {
       + '<div class="arab">' + d.arab + '</div>'
       + '<p class="htx">' + hi + '</p>'
       + '<div class="hacts">'
-      + '<button class="hbtn" onclick="openShare(getShareTxt(\"' + r.key + '\"))">📤 Share</button>'
-      + '<button class="hbtn" onclick="doCopy(getShareTxt(\"' + r.key + '\"))">📋 Salin</button>'
+      + '<button class="hbtn" data-key="' + r.key + '" onclick="openShare(getShareTxt(this.dataset.key))">📤 Share</button>'
+      + '<button class="hbtn" data-key="' + r.key + '" onclick="doCopy(getShareTxt(this.dataset.key))">📋 Salin</button>'
       + '</div></div>';
   });
   res.innerHTML = h;
@@ -894,9 +895,9 @@ function showBookmark() {
         + '<p class="htx">' + tx + '</p>'
         + '<div style="font-size:11px;color:var(--txm);margin:6px 0;">📅 ' + bm.saved + '</div>'
         + '<div class="hacts">'
-        + '<button class="hbtn" onclick="bmShare(\"' + bm.key + '\")">📤 Share</button>'
-        + '<button class="hbtn" onclick="bmCopy(\"' + bm.key + '\")">📋 Salin</button>'
-        + '<button class="hbtn red" onclick="hapusBM(\"' + bm.key + '\")">🗑️ Hapus</button>'
+        + '<button class="hbtn" data-key="' + bm.key + '" onclick="bmShare(this.dataset.key)">📤 Share</button>'
+        + '<button class="hbtn" data-key="' + bm.key + '" onclick="bmCopy(this.dataset.key)">📋 Salin</button>'
+        + '<button class="hbtn red" data-key="' + bm.key + '" onclick="hapusBM(this.dataset.key)">🗑️ Hapus</button>'
         + '</div></div>';
     });
   }
@@ -904,7 +905,9 @@ function showBookmark() {
 }
 
 function hapusBM(key) {
-  BM = BM.filter(function(b) { return b.key !== key; });
+  var newBM = [];
+  for (var i = 0; i < BM.length; i++) { if (BM[i].key !== key) newBM.push(BM[i]); }
+  BM = newBM;
   saveBM();
   showBookmark();
   toast('Bookmark dihapus');
@@ -1044,13 +1047,13 @@ function doaCopy(i) {
 // HELPER: Bookmark share/copy pakai key
 // ═══════════════════════════════════════════
 function bmShare(key) {
-  var bm = BM.find(function(b) { return b.key === key; });
+  var bm = null; for (var i=0;i<BM.length;i++){if(BM[i].key===key){bm=BM[i];break;}}
   if (!bm) return;
   var tx = (LANG === 'en' && bm.en) ? bm.en : bm.id;
   openShare(bm.arab + '\n\n"' + tx + '"\n\n(' + bm.bookName + ' No. ' + bm.num + ')');
 }
 function bmCopy(key) {
-  var bm = BM.find(function(b) { return b.key === key; });
+  var bm = null; for (var i=0;i<BM.length;i++){if(BM[i].key===key){bm=BM[i];break;}}
   if (!bm) return;
   var tx = (LANG === 'en' && bm.en) ? bm.en : bm.id;
   doCopy(bm.arab + '\n\n"' + tx + '"\n\n(' + bm.bookName + ' No. ' + bm.num + ')');
