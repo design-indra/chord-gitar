@@ -71,13 +71,17 @@
             border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); 
             box-shadow: 0 4px 15px rgba(0,0,0,0.2); border-bottom: 3px solid var(--secondary); 
         }
-        .header-title { flex-grow: 1; text-align: center; margin-right: 35px; }
+        .header-title { flex-grow: 1; text-align: center; }
         .theme-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; }
+        .menu-btn { background: rgba(255,255,255,0.2); border: none; color: white; width: 40px; height: 40px; border-radius: 8px; cursor: pointer; font-size: 20px; font-weight: bold; }
 
-        #top-info-section { background: var(--card); margin: 15px; padding: 20px; border-radius: var(--radius); text-align: center; box-shadow: var(--shadow); }
-        .calendar-box { font-size: 14px; font-weight: bold; color: var(--primary); }
+
+
+        #top-info-section { background: var(--card); margin: 12px 15px; padding: 15px; border-radius: var(--radius); text-align: center; box-shadow: var(--shadow); }
+        .calendar-box { font-size: 13px; font-weight: bold; color: var(--primary); }
         
         .container { padding: 0 15px; }
+
         .recent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 15px; margin-bottom: 25px; }
         .recent-item { 
             background: var(--gradient-emerald); color: white; padding: 12px 5px; 
@@ -112,6 +116,36 @@
         .qris-img { width: 220px; height: 220px; border: 5px solid white; border-radius: 15px; box-shadow: var(--shadow); margin-top: 15px; }
         .contact-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--card); padding: 15px; border-radius: 15px; margin-bottom: 10px; text-decoration: none; color: var(--text); border: 1px solid #eee; font-weight: bold; transition: 0.3s; }
         .contact-btn:active { transform: scale(0.98); background: #f9f9f9; }
+
+        /* --- PER JUZ --- */
+        .juz-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 5px 0; }
+        .juz-card {
+            background: var(--card); border-radius: 16px; padding: 14px 8px;
+            text-align: center; cursor: pointer; border: 1px solid rgba(212,175,55,0.3);
+            box-shadow: var(--shadow); transition: 0.2s;
+        }
+        .juz-card:active { transform: scale(0.96); }
+        .juz-num { font-size: 22px; font-weight: bold; color: var(--primary); font-family: 'Amiri', serif; }
+        .juz-label { font-size: 9px; font-weight: bold; color: var(--secondary); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+        .juz-start { font-size: 10px; opacity: 0.6; margin-top: 4px; }
+
+        /* --- LOMPAT KE AYAT --- */
+        .goto-ayat-bar {
+            background: var(--card); border-radius: 15px; padding: 12px 15px;
+            margin-bottom: 15px; border: 1px solid rgba(212,175,55,0.4);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .goto-ayat-bar label { font-size: 12px; font-weight: bold; white-space: nowrap; color: var(--primary); }
+        .goto-ayat-bar input {
+            flex: 1; padding: 8px 12px; border-radius: 10px;
+            border: 1px solid #ddd; font-size: 14px; outline: none;
+            background: var(--bg); color: var(--text);
+        }
+        .goto-ayat-bar button {
+            background: var(--gradient-gold); color: #1B4D3E; border: none;
+            padding: 8px 14px; border-radius: 10px; font-weight: bold;
+            cursor: pointer; font-size: 12px; white-space: nowrap;
+        }
     </style>
 </head>
 <body>
@@ -129,23 +163,15 @@
 
 <header>
     <button class="theme-btn" onclick="toggleTheme()">🌓</button>
-    <div class="header-title"><h3 style="margin:0;">Al-Qur'an Mobile</h3></div>
+    <div class="header-title"><h3 style="margin:0;">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h3></div>
+    <button class="menu-btn" onclick="showMenuLainnya()">☰</button>
 </header>
-
-<div id="top-info-section">
-    <div class="calendar-box" id="calendar-display">Memuat Kalender...</div>
-    <div id="adz">Quotes hari ini</div>
-    <div id="renungan-box">"Hati yang bersyukur adalah magnet kebahagiaan."</div>
-</div>
-
-<div id="app-content"></div>
-
 <nav class="bottom-nav">
     <div class="nav-item active" id="nav-0" onclick="showHome()"><span>🏠</span></div>
     <div class="nav-item" id="nav-1" onclick="showCariAyat()"><span>🔍</span></div>
+    <div class="nav-item" id="nav-5" onclick="showPerJuz()"><span>📚</span><small style="font-size:8px;">Juz</small></div>
     <div class="nav-item" id="nav-2" onclick="loadJadwalPuasa()"><span>🕌</span></div>
-    <div class='nav-item' id='nav-3' onclick='showMurottal()'><span>🎧</span></div>
-    <div class="nav-item" id="nav-4" onclick="showMenuLainnya()"><span>☰</span></div>
+    <div class="nav-item" id="nav-3" onclick="showMurottal()"><span>🎧</span></div>
 </nav>
 
 <script>
@@ -184,27 +210,108 @@
         return html;
     }
 
-    async function showHome() {
+    // Data 114 surah lengkap - tidak butuh API
+    const SURAH_LIST = [
+        {n:1,nama:"Al-Fatihah",arti:"Pembukaan",ar:"الفاتحة"},{n:2,nama:"Al-Baqarah",arti:"Sapi Betina",ar:"البقرة"},
+        {n:3,nama:"Ali 'Imran",arti:"Keluarga Imran",ar:"آل عمران"},{n:4,nama:"An-Nisa'",arti:"Perempuan",ar:"النساء"},
+        {n:5,nama:"Al-Ma'idah",arti:"Hidangan",ar:"المائدة"},{n:6,nama:"Al-An'am",arti:"Binatang Ternak",ar:"الأنعام"},
+        {n:7,nama:"Al-A'raf",arti:"Tempat Tertinggi",ar:"الأعراف"},{n:8,nama:"Al-Anfal",arti:"Rampasan Perang",ar:"الأنفال"},
+        {n:9,nama:"At-Taubah",arti:"Pengampunan",ar:"التوبة"},{n:10,nama:"Yunus",arti:"Yunus",ar:"يونس"},
+        {n:11,nama:"Hud",arti:"Hud",ar:"هود"},{n:12,nama:"Yusuf",arti:"Yusuf",ar:"يوسف"},
+        {n:13,nama:"Ar-Ra'd",arti:"Guruh",ar:"الرعد"},{n:14,nama:"Ibrahim",arti:"Ibrahim",ar:"إبراهيم"},
+        {n:15,nama:"Al-Hijr",arti:"Daerah Al-Hijr",ar:"الحجر"},{n:16,nama:"An-Nahl",arti:"Lebah",ar:"النحل"},
+        {n:17,nama:"Al-Isra'",arti:"Perjalanan Malam",ar:"الإسراء"},{n:18,nama:"Al-Kahf",arti:"Penghuni Gua",ar:"الكهف"},
+        {n:19,nama:"Maryam",arti:"Maryam",ar:"مريم"},{n:20,nama:"Thaha",arti:"Tha Ha",ar:"طه"},
+        {n:21,nama:"Al-Anbiya'",arti:"Para Nabi",ar:"الأنبياء"},{n:22,nama:"Al-Hajj",arti:"Haji",ar:"الحج"},
+        {n:23,nama:"Al-Mu'minun",arti:"Orang-orang Mukmin",ar:"المؤمنون"},{n:24,nama:"An-Nur",arti:"Cahaya",ar:"النور"},
+        {n:25,nama:"Al-Furqan",arti:"Pembeda",ar:"الفرقان"},{n:26,nama:"Asy-Syu'ara'",arti:"Para Penyair",ar:"الشعراء"},
+        {n:27,nama:"An-Naml",arti:"Semut",ar:"النمل"},{n:28,nama:"Al-Qashash",arti:"Kisah-kisah",ar:"القصص"},
+        {n:29,nama:"Al-'Ankabut",arti:"Laba-laba",ar:"العنكبوت"},{n:30,nama:"Ar-Rum",arti:"Romawi",ar:"الروم"},
+        {n:31,nama:"Luqman",arti:"Luqman",ar:"لقمان"},{n:32,nama:"As-Sajdah",arti:"Sujud",ar:"السجدة"},
+        {n:33,nama:"Al-Ahzab",arti:"Golongan Bersekutu",ar:"الأحزاب"},{n:34,nama:"Saba'",arti:"Kaum Saba",ar:"سبأ"},
+        {n:35,nama:"Fathir",arti:"Pencipta",ar:"فاطر"},{n:36,nama:"Ya Sin",arti:"Ya Sin",ar:"يس"},
+        {n:37,nama:"Ash-Shaffat",arti:"Barisan-barisan",ar:"الصافات"},{n:38,nama:"Shad",arti:"Shad",ar:"ص"},
+        {n:39,nama:"Az-Zumar",arti:"Rombongan",ar:"الزمر"},{n:40,nama:"Ghafir",arti:"Yang Maha Pengampun",ar:"غافر"},
+        {n:41,nama:"Fushshilat",arti:"Yang Dijelaskan",ar:"فصلت"},{n:42,nama:"Asy-Syura",arti:"Musyawarah",ar:"الشورى"},
+        {n:43,nama:"Az-Zukhruf",arti:"Perhiasan",ar:"الزخرف"},{n:44,nama:"Ad-Dukhan",arti:"Kabut",ar:"الدخان"},
+        {n:45,nama:"Al-Jatsiyah",arti:"Yang Berlutut",ar:"الجاثية"},{n:46,nama:"Al-Ahqaf",arti:"Bukit Pasir",ar:"الأحقاف"},
+        {n:47,nama:"Muhammad",arti:"Muhammad",ar:"محمد"},{n:48,nama:"Al-Fath",arti:"Kemenangan",ar:"الفتح"},
+        {n:49,nama:"Al-Hujurat",arti:"Kamar-kamar",ar:"الحجرات"},{n:50,nama:"Qaf",arti:"Qaf",ar:"ق"},
+        {n:51,nama:"Adz-Dzariyat",arti:"Angin yang Menerbangkan",ar:"الذاريات"},{n:52,nama:"Ath-Thur",arti:"Bukit",ar:"الطور"},
+        {n:53,nama:"An-Najm",arti:"Bintang",ar:"النجم"},{n:54,nama:"Al-Qamar",arti:"Bulan",ar:"القمر"},
+        {n:55,nama:"Ar-Rahman",arti:"Yang Maha Pemurah",ar:"الرحمن"},{n:56,nama:"Al-Waqi'ah",arti:"Hari Kiamat",ar:"الواقعة"},
+        {n:57,nama:"Al-Hadid",arti:"Besi",ar:"الحديد"},{n:58,nama:"Al-Mujadilah",arti:"Wanita yang Menggugat",ar:"المجادلة"},
+        {n:59,nama:"Al-Hasyr",arti:"Pengusiran",ar:"الحشر"},{n:60,nama:"Al-Mumtahanah",arti:"Perempuan yang Diuji",ar:"الممتحنة"},
+        {n:61,nama:"Ash-Shaff",arti:"Barisan",ar:"الصف"},{n:62,nama:"Al-Jumu'ah",arti:"Hari Jumat",ar:"الجمعة"},
+        {n:63,nama:"Al-Munafiqun",arti:"Orang-orang Munafik",ar:"المنافقون"},{n:64,nama:"At-Taghabun",arti:"Hari Ditampakkan Kesalahan",ar:"التغابن"},
+        {n:65,nama:"At-Thalaq",arti:"Talak",ar:"الطلاق"},{n:66,nama:"At-Tahrim",arti:"Mengharamkan",ar:"التحريم"},
+        {n:67,nama:"Al-Mulk",arti:"Kerajaan",ar:"الملك"},{n:68,nama:"Al-Qalam",arti:"Pena",ar:"القلم"},
+        {n:69,nama:"Al-Haqqah",arti:"Hari Kiamat",ar:"الحاقة"},{n:70,nama:"Al-Ma'arij",arti:"Tempat Naik",ar:"المعارج"},
+        {n:71,nama:"Nuh",arti:"Nuh",ar:"نوح"},{n:72,nama:"Al-Jinn",arti:"Jin",ar:"الجن"},
+        {n:73,nama:"Al-Muzzammil",arti:"Orang Berselimut",ar:"المزمل"},{n:74,nama:"Al-Muddatstsir",arti:"Orang Berkemul",ar:"المدثر"},
+        {n:75,nama:"Al-Qiyamah",arti:"Kiamat",ar:"القيامة"},{n:76,nama:"Al-Insan",arti:"Manusia",ar:"الإنسان"},
+        {n:77,nama:"Al-Mursalat",arti:"Malaikat yang Diutus",ar:"المرسلات"},{n:78,nama:"An-Naba'",arti:"Berita Besar",ar:"النبأ"},
+        {n:79,nama:"An-Nazi'at",arti:"Malaikat yang Mencabut",ar:"النازعات"},{n:80,nama:"'Abasa",arti:"Bermuka Masam",ar:"عبس"},
+        {n:81,nama:"At-Takwir",arti:"Penggulungan",ar:"التكوير"},{n:82,nama:"Al-Infithar",arti:"Terbelah",ar:"الانفطار"},
+        {n:83,nama:"Al-Muthaffifin",arti:"Orang-orang Curang",ar:"المطففين"},{n:84,nama:"Al-Insyiqaq",arti:"Terbelah",ar:"الانشقاق"},
+        {n:85,nama:"Al-Buruj",arti:"Gugusan Bintang",ar:"البروج"},{n:86,nama:"Ath-Thariq",arti:"Yang Datang Malam",ar:"الطارق"},
+        {n:87,nama:"Al-A'la",arti:"Yang Paling Tinggi",ar:"الأعلى"},{n:88,nama:"Al-Ghasyiyah",arti:"Hari Pembalasan",ar:"الغاشية"},
+        {n:89,nama:"Al-Fajr",arti:"Fajar",ar:"الفجر"},{n:90,nama:"Al-Balad",arti:"Negeri",ar:"البلد"},
+        {n:91,nama:"Asy-Syams",arti:"Matahari",ar:"الشمس"},{n:92,nama:"Al-Lail",arti:"Malam",ar:"الليل"},
+        {n:93,nama:"Ad-Duha",arti:"Waktu Dhuha",ar:"الضحى"},{n:94,nama:"Asy-Syarh",arti:"Kelapangan",ar:"الشرح"},
+        {n:95,nama:"At-Tin",arti:"Buah Tin",ar:"التين"},{n:96,nama:"Al-'Alaq",arti:"Segumpal Darah",ar:"العلق"},
+        {n:97,nama:"Al-Qadr",arti:"Kemuliaan",ar:"القدر"},{n:98,nama:"Al-Bayyinah",arti:"Bukti Nyata",ar:"البينة"},
+        {n:99,nama:"Az-Zalzalah",arti:"Guncangan",ar:"الزلزلة"},{n:100,nama:"Al-'Adiyat",arti:"Kuda Perang",ar:"العاديات"},
+        {n:101,nama:"Al-Qari'ah",arti:"Hari Kiamat",ar:"القارعة"},{n:102,nama:"At-Takatsur",arti:"Bermegah-megahan",ar:"التكاثر"},
+        {n:103,nama:"Al-'Asr",arti:"Masa",ar:"العصر"},{n:104,nama:"Al-Humazah",arti:"Pengumpat",ar:"الهمزة"},
+        {n:105,nama:"Al-Fil",arti:"Gajah",ar:"الفيل"},{n:106,nama:"Quraisy",arti:"Suku Quraisy",ar:"قريش"},
+        {n:107,nama:"Al-Ma'un",arti:"Barang Berguna",ar:"الماعون"},{n:108,nama:"Al-Kautsar",arti:"Nikmat yang Banyak",ar:"الكوثر"},
+        {n:109,nama:"Al-Kafirun",arti:"Orang-orang Kafir",ar:"الكافرون"},{n:110,nama:"An-Nashr",arti:"Pertolongan",ar:"النصر"},
+        {n:111,nama:"Al-Lahab",arti:"Gejolak Api",ar:"المسد"},{n:112,nama:"Al-Ikhlas",arti:"Keikhlasan",ar:"الإخلاص"},
+        {n:113,nama:"Al-Falaq",arti:"Waktu Subuh",ar:"الفلق"},{n:114,nama:"An-Nas",arti:"Manusia",ar:"الناس"}
+    ];
+
+    function showHome() {
         updateActiveNav(0);
         document.getElementById('app-content').innerHTML = `
             <div class="container">
                 <p style="font-size:10px; font-weight:bold; opacity:0.6; margin:15px 0 10px;">TERAKHIR DIBACA</p>
                 <div class="recent-grid">${getHistoryHTML()}</div>
-                <p style="font-size:10px; font-weight:bold; opacity:0.6; margin-bottom:10px;">DAFTAR SURAH</p>
-                <div id="list-container">Memuat...</div>
+                <div style="position:sticky; top:70px; z-index:100; background:var(--bg); padding:8px 0 10px;">
+                    <input type="text" id="search-surah" placeholder="🔍 Cari nama surah atau arti..."
+                        oninput="filterDaftarSurah(this.value)"
+                        style="width:100%; padding:12px 18px; border-radius:30px; border:2px solid var(--primary); outline:none;
+                               box-shadow:var(--shadow); font-size:13px; background:var(--card); color:var(--text); box-sizing:border-box;">
+                </div>
+                <div id="list-container"></div>
             </div>`;
-        try {
-            const res = await fetch('https://equran.id/api/v2/surat');
-            const data = await res.json();
-            document.getElementById('list-container').innerHTML = data.data.map(s => `
-                <div class="card" onclick="showDetail(${s.nomor}, '${s.namaLatin}')">
-                    <div><b>${s.nomor}. ${s.namaLatin}</b><br><small>${s.arti}</small></div>
-                    <div style="font-family:'Amiri'; color:var(--primary); font-size:22px;">${s.nama}</div>
-                </div>`).join('');
-        } catch(e) { document.getElementById('list-container').innerHTML = "Gagal memuat."; }
+        renderDaftarSurah('');
     }
 
-    async function showDetail(id, name) {
+    function renderDaftarSurah(query) {
+        const filtered = SURAH_LIST.filter(s =>
+            s.nama.toLowerCase().includes(query.toLowerCase()) ||
+            s.arti.toLowerCase().includes(query.toLowerCase()) ||
+            String(s.n).includes(query)
+        );
+        const container = document.getElementById('list-container');
+        if (!container) return;
+        if (filtered.length === 0) {
+            container.innerHTML = `<p style="text-align:center; padding:30px; opacity:0.5;">Surah tidak ditemukan.</p>`;
+            return;
+        }
+        container.innerHTML = filtered.map(s => `
+            <div class="card" onclick="showDetail(${s.n}, '${s.nama}')">
+                <div><b>${s.n}. ${s.nama}</b><br><small>${s.arti}</small></div>
+                <div style="font-family:'Amiri'; color:var(--primary); font-size:22px;">${s.ar}</div>
+            </div>`).join('');
+    }
+
+    function filterDaftarSurah(query) {
+        renderDaftarSurah(query);
+    }
+
+    async function showDetail(id, name, scrollToAyat) {
         saveHistory(id, name);
         const content = document.getElementById('app-content');
         content.innerHTML = '<p style="text-align:center; padding:50px;">Bismillah...</p>';
@@ -223,7 +330,15 @@
                     <option value="04" ${selectedQori=='04'?'selected':''}>Muammar ZA</option>
                 </select>
             </div>
-            <h2 style="text-align:center; color:var(--primary-dark); font-family:'Amiri';">${s.namaLatin}</h2>`;
+            <h2 style="text-align:center; color:var(--primary-dark); font-family:'Amiri';">${s.namaLatin}</h2>
+            <p style="text-align:center; font-size:12px; opacity:0.6; margin:-8px 0 15px;">${s.jumlahAyat} Ayat</p>
+            
+            <div class="goto-ayat-bar">
+                <label>⚡ Lompat ke Ayat:</label>
+                <input type="number" id="goto-input" min="1" max="${s.jumlahAyat}" placeholder="No. ayat (1–${s.jumlahAyat})"
+                    onkeydown="if(event.key==='Enter') gotoAyat(${s.jumlahAyat})">
+                <button onclick="gotoAyat(${s.jumlahAyat})">Tuju →</button>
+            </div>`;
 
         s.ayat.forEach(a => {
             html += `
@@ -245,6 +360,29 @@
                 playMurottal(audios[selectedQori], parseInt(btn.getAttribute('data-id')), parseInt(btn.getAttribute('data-total')));
             };
         });
+
+        // Jika dipanggil dari Per Juz, langsung scroll ke ayat tertentu
+        if (scrollToAyat) {
+            setTimeout(() => {
+                const el = document.getElementById(`ayat-${scrollToAyat}`);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+    }
+
+    function gotoAyat(maxAyat) {
+        const val = parseInt(document.getElementById('goto-input').value);
+        if (!val || val < 1 || val > maxAyat) {
+            alert(`Masukkan nomor ayat antara 1 hingga ${maxAyat}`);
+            return;
+        }
+        const el = document.getElementById(`ayat-${val}`);
+        if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            el.style.transition = '0.4s';
+            el.style.boxShadow = '0 0 0 3px var(--secondary)';
+            setTimeout(() => { el.style.boxShadow = ''; }, 2000);
+        }
     }
 
     function playMurottal(url, id, total) {
@@ -439,8 +577,15 @@ async function liveSearch(query) {
 
     function toggleTheme() { document.body.classList.toggle('dark-theme'); }
     function updateActiveNav(n) {
-        document.querySelectorAll('.nav-item').forEach((item, i) => item.classList.toggle('active', i === n));
+        const navIds = ['nav-0','nav-1','nav-5','nav-2','nav-3'];
+        navIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove('active');
+        });
+        const activeId = navIds[n];
+        if (activeId) document.getElementById(activeId).classList.add('active');
     }
+    
     
 async function loadJadwalPuasa() {
     updateActiveNav(2); 
@@ -564,6 +709,72 @@ function filterSurah() {
         items[i].style.display = text.includes(input) ? "flex" : "none";
     }
 }
+
+// --- PER JUZ ---
+const JUZ_DATA = [
+    { juz:1,  surah:1,  ayat:1,  nama:"Al-Fatihah" },
+    { juz:2,  surah:2,  ayat:142, nama:"Al-Baqarah" },
+    { juz:3,  surah:2,  ayat:253, nama:"Al-Baqarah" },
+    { juz:4,  surah:3,  ayat:92,  nama:"Ali Imran" },
+    { juz:5,  surah:4,  ayat:24,  nama:"An-Nisa'" },
+    { juz:6,  surah:4,  ayat:148, nama:"An-Nisa'" },
+    { juz:7,  surah:5,  ayat:82,  nama:"Al-Ma'idah" },
+    { juz:8,  surah:6,  ayat:111, nama:"Al-An'am" },
+    { juz:9,  surah:7,  ayat:87,  nama:"Al-A'raf" },
+    { juz:10, surah:8,  ayat:41,  nama:"Al-Anfal" },
+    { juz:11, surah:9,  ayat:93,  nama:"At-Taubah" },
+    { juz:12, surah:11, ayat:6,   nama:"Hud" },
+    { juz:13, surah:12, ayat:53,  nama:"Yusuf" },
+    { juz:14, surah:15, ayat:1,   nama:"Al-Hijr" },
+    { juz:15, surah:17, ayat:1,   nama:"Al-Isra'" },
+    { juz:16, surah:18, ayat:75,  nama:"Al-Kahf" },
+    { juz:17, surah:21, ayat:1,   nama:"Al-Anbiya'" },
+    { juz:18, surah:23, ayat:1,   nama:"Al-Mu'minun" },
+    { juz:19, surah:25, ayat:21,  nama:"Al-Furqan" },
+    { juz:20, surah:27, ayat:56,  nama:"An-Naml" },
+    { juz:21, surah:29, ayat:46,  nama:"Al-'Ankabut" },
+    { juz:22, surah:33, ayat:31,  nama:"Al-Ahzab" },
+    { juz:23, surah:36, ayat:28,  nama:"Ya Sin" },
+    { juz:24, surah:39, ayat:32,  nama:"Az-Zumar" },
+    { juz:25, surah:41, ayat:47,  nama:"Fushshilat" },
+    { juz:26, surah:46, ayat:1,   nama:"Al-Ahqaf" },
+    { juz:27, surah:51, ayat:31,  nama:"Az-Zariyat" },
+    { juz:28, surah:58, ayat:1,   nama:"Al-Mujadilah" },
+    { juz:29, surah:67, ayat:1,   nama:"Al-Mulk" },
+    { juz:30, surah:78, ayat:1,   nama:"An-Naba'" },
+];
+
+function showPerJuz() {
+    updateActiveNav(2); // index 2 = nav-5 (Per Juz)
+
+    let html = `
+        <div class="container">
+            <div class="page-header">
+                <div class="quote-box" style="font-size:28px;">الجُزء</div>
+                <h3 style="margin:8px 0 4px; letter-spacing:2px;">30 JUZ AL-QUR'AN</h3>
+                <p style="font-size:12px; opacity:0.85; margin:0;">Pilih juz untuk langsung membuka surah & ayat yang bersangkutan</p>
+            </div>
+            <div class="juz-grid">`;
+
+    JUZ_DATA.forEach(j => {
+        html += `
+            <div class="juz-card" onclick="bukaJuz(${j.surah}, '${j.nama}', ${j.ayat})">
+                <div class="juz-num">${j.juz}</div>
+                <div class="juz-label">Juz ${j.juz}</div>
+                <div class="juz-start" style="font-size:9px;">${j.nama}<br>Ayat ${j.ayat}</div>
+            </div>`;
+    });
+
+    html += `</div></div>`;
+    document.getElementById('app-content').innerHTML = html;
+    window.scrollTo(0,0);
+}
+
+async function bukaJuz(surahNum, namaLatin, mulaiAyat) {
+    await showDetail(surahNum, namaLatin, mulaiAyat);
+}
+
+
 
 </script>
 
