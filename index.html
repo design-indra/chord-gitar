@@ -37,7 +37,8 @@
 .t-tosca.dk  { --bg:#041C17; --card:#082E24; --p:#4DD0B8; --pd:#80E8D4; --pl:#0E4A3C; }
 
 /* ── TEMA MODAL ── */
-.tema-modal { position:fixed; inset:0; z-index:3500; pointer-events:none; opacity:0; transition:opacity .25s; }
+.tema-modal { position:fixed; inset:0; z-index:3500; pointer-events:none; opacity:0; transition:opacity .25s; visibility:hidden; }
+.tema-modal.on { pointer-events:all; opacity:1; visibility:visible; }
 .tema-modal.on { pointer-events:all; opacity:1; }
 .tema-bg { position:absolute; inset:0; background:rgba(0,0,0,.55); }
 .tema-panel { position:absolute; bottom:0; left:0; right:0; background:var(--card); border-radius:28px 28px 0 0; padding:24px 20px 30px; transform:translateY(100%); transition:transform .3s cubic-bezier(.4,0,.2,1); }
@@ -125,7 +126,8 @@ header {
 .ni.on .ni-dot { display:block; }
 
 /* SIDE MENU */
-.smo { position:fixed; inset:0; z-index:2000; pointer-events:none; opacity:0; transition:opacity .3s; }
+.smo { position:fixed; inset:0; z-index:2000; pointer-events:none; opacity:0; transition:opacity .3s; visibility:hidden; }
+.smo.on { pointer-events:all; opacity:1; visibility:visible; }
 .smo.on { pointer-events:all; opacity:1; }
 .smb { position:absolute; inset:0; background:rgba(0,0,0,.5); }
 .smp { position:absolute; top:0; right:0; width:280px; height:100%; background:var(--card); padding:26px 16px; transform:translateX(100%); transition:transform .35s cubic-bezier(.4,0,.2,1); overflow-y:auto; box-shadow:-10px 0 40px rgba(0,0,0,.2); }
@@ -137,7 +139,8 @@ header {
 .smd { height:1px; background:rgba(0,0,0,.08); margin:8px 0; }
 
 /* SHARE MODAL */
-.shmo { position:fixed; inset:0; z-index:3000; pointer-events:none; opacity:0; transition:opacity .2s; }
+.shmo { position:fixed; inset:0; z-index:3000; pointer-events:none; opacity:0; transition:opacity .2s; visibility:hidden; }
+.shmo.on { pointer-events:all; opacity:1; visibility:visible; }
 .shmo.on { pointer-events:all; opacity:1; }
 .shmb { position:absolute; inset:0; background:rgba(0,0,0,.5); }
 .shmp { position:absolute; bottom:0; left:0; right:0; background:var(--card); border-radius:24px 24px 0 0; padding:22px; transform:translateY(100%); transition:transform .3s cubic-bezier(.4,0,.2,1); }
@@ -297,9 +300,8 @@ input:focus, select:focus { border-color:var(--p); }
   </div>
   <div class="hdr-r">
     <button class="bic" id="langBtn" onclick="toggleLang()">🇮🇩</button>
-    <button class="bic" id="temaBtn" onclick="openTema()" title="Tema Warna">🎨</button>
-    <button class="bic" id="themeBtn" onclick="toggleTheme()" title="Mode Gelap">🌓</button>
-    <button class="bic" id="menuBtn" onclick="openMenu()">☰</button>
+    <button class="bic" onclick="toggleTheme()" title="Mode Gelap">🌓</button>
+    <button class="bic" onclick="openMenu()">☰</button>
   </div>
 </header>
 
@@ -316,6 +318,17 @@ input:focus, select:focus { border-color:var(--p); }
     </div>
     <div class="smi" onclick="closeMenu();showDoa()"><div class="sm-ic">🤲</div><div><div style="font-weight:700;">Doa Harian</div><div style="font-size:11px;color:var(--txm)">10 doa sehari-hari</div></div></div>
     <div class="smi" onclick="closeMenu();showTasbih()"><div class="sm-ic">📿</div><div><div style="font-weight:700;">Tasbih Digital</div><div style="font-size:11px;color:var(--txm)">Penghitung zikir</div></div></div>
+    <div class="smi" onclick="toggleTemaPanel()" id="temaSmi">
+      <div class="sm-ic">🎨</div>
+      <div style="flex:1">
+        <div style="font-weight:700;">Tema Warna</div>
+        <div style="font-size:11px;color:var(--txm)">Ganti warna aplikasi</div>
+      </div>
+      <span id="temaArrow" style="font-size:12px;color:var(--txm);transition:transform .3s;">▼</span>
+    </div>
+    <div id="temaPanel" style="display:none;padding:10px 12px 14px;background:var(--bg);border-radius:var(--rs);margin:0 4px 8px;">
+      <div id="temaInlineGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;"></div>
+    </div>
     <div class="smi" onclick="closeMenu();showSholat()"><div class="sm-ic">🕌</div><div><div style="font-weight:700;">Waktu Sholat</div><div style="font-size:11px;color:var(--txm)">Jadwal berdasarkan lokasi</div></div></div>
     <div class="smi" onclick="closeMenu();showBookmark()"><div class="sm-ic">🔖</div><div><div style="font-weight:700;">Bookmark</div><div style="font-size:11px;color:var(--txm)">Hadis tersimpan</div></div></div>
     <div class="smi" onclick="closeMenu();showHistory()"><div class="sm-ic">📜</div><div><div style="font-weight:700;">Riwayat Baca</div></div></div>
@@ -327,17 +340,6 @@ input:focus, select:focus { border-color:var(--p); }
     <div class="smi" onclick="window.open('https://islamicdigitalapp.blogspot.com')"><div class="sm-ic">🌐</div><div><div style="font-weight:700;">Website</div></div></div>
     <div class="smd"></div>
     <div style="padding:10px;text-align:center;font-size:11px;color:var(--txm);">v6.0 · © 2025 HadisDigital<br><span style="color:var(--p);font-style:italic;">Jazakumullah Khairan</span></div>
-  </div>
-</div>
-
-<!-- TEMA MODAL -->
-<div class="tema-modal" id="temaMo">
-  <div class="tema-bg" onclick="closeTema()"></div>
-  <div class="tema-panel">
-    <div class="tema-title">🎨 Pilih Tema Warna</div>
-    <div class="tema-sub">Sentuh untuk mengganti tema aplikasi</div>
-    <div class="tema-grid" id="temaGrid"></div>
-    <button style="width:100%;padding:12px;background:var(--gm);color:#fff;border:none;border-radius:var(--rs);font-family:'Tajawal',sans-serif;font-weight:700;font-size:14px;cursor:pointer;" onclick="closeTema()">✓ Selesai</button>
   </div>
 </div>
 
@@ -1221,39 +1223,45 @@ function applyTema(id) {
   try { localStorage.setItem('hd_tema', id); } catch(e) {}
 }
 
-function openTema() {
-  // Render grid pilihan tema
-  var grid = document.getElementById('temaGrid');
-  if (!grid) return;
-  var html = '';
-  TEMAS.forEach(function(t) {
-    var isAktif = curTema === t.id;
-    html += '<div class="tema-opt' + (isAktif ? ' aktif' : '') + '" data-tid="' + t.id + '" onclick="pilihTema(this.dataset.tid)">'
-      + '<div class="tema-swatch" style="background:linear-gradient(135deg,' + t.grad[0] + ',' + t.grad[1] + ');"></div>'
-      + '<div class="tema-nm">' + t.nm + (isAktif ? ' ✓' : '') + '</div>'
-      + '</div>';
-  });
-  grid.innerHTML = html;
-  document.getElementById('temaMo').classList.add('on');
+function toggleTemaPanel() {
+  var panel = document.getElementById('temaPanel');
+  var arrow = document.getElementById('temaArrow');
+  var grid  = document.getElementById('temaInlineGrid');
+  if (!panel) return;
+  var isOpen = panel.style.display !== 'none';
+  if (isOpen) {
+    panel.style.display = 'none';
+    if (arrow) arrow.style.transform = '';
+  } else {
+    var html = '';
+    TEMAS.forEach(function(t) {
+      var isAktif = curTema === t.id;
+      html += '<div class="tema-opt' + (isAktif ? ' aktif' : '') + '" data-tid="' + t.id + '" onclick="pilihTema(this.dataset.tid)">'
+        + '<div class="tema-swatch" style="background:linear-gradient(135deg,' + t.grad[0] + ',' + t.grad[1] + ');"></div>'
+        + '<div class="tema-nm">' + t.nm + (isAktif ? ' ✓' : '') + '</div>'
+        + '</div>';
+    });
+    if (grid) grid.innerHTML = html;
+    panel.style.display = 'block';
+    if (arrow) arrow.style.transform = 'rotate(180deg)';
+  }
 }
+
 
 function pilihTema(id) {
   applyTema(id);
-  // Update meta theme-color
   var picked = null;
   for (var i=0; i<TEMAS.length; i++) { if (TEMAS[i].id === id) { picked = TEMAS[i]; break; } }
   if (!picked) picked = TEMAS[0];
-  var mc = document.querySelector('meta[name="theme-color"]');
-  if (mc) mc.setAttribute('content', picked.grad[1]);
-  // Update grid tampilan centang
-  var opts = document.querySelectorAll('.tema-opt');
-  for (var j=0; j<TEMAS.length; j++) {
-    if (opts[j]) {
-      opts[j].classList.toggle('aktif', TEMAS[j].id === id);
-      var nm = opts[j].querySelector('.tema-nm');
-      if (nm) nm.textContent = TEMAS[j].nm + (TEMAS[j].id === id ? ' ✓' : '');
-    }
+  // Update centang di grid inline
+  var opts = document.querySelectorAll('#temaInlineGrid .tema-opt');
+  for (var j=0; j<opts.length; j++) {
+    var tid = opts[j].dataset.tid || '';
+    opts[j].classList.toggle('aktif', tid === id);
+    var nm = opts[j].querySelector('.tema-nm');
+    if (nm) nm.textContent = TEMAS[j].nm + (TEMAS[j].id === id ? ' ✓' : '');
   }
+  closeMenu();
   toast('🎨 Tema ' + picked.nm + ' dipilih!');
 }
 
@@ -1269,15 +1277,9 @@ if (curTema) applyTema(curTema);
 // ═══════════════════════════════════════════
 
 // Bind semua tombol header via addEventListener (lebih reliable di semua browser)
-document.getElementById('langBtn').addEventListener('click', toggleLang);
-document.getElementById('temaBtn').addEventListener('click', openTema);
-document.getElementById('themeBtn').addEventListener('click', toggleTheme);
-document.getElementById('menuBtn').addEventListener('click', openMenu);
-
-// Bind side menu close button
+// Bind side menu & share modal
 document.querySelector('.smb').addEventListener('click', closeMenu);
 document.getElementById('shareMo').querySelector('.shmb').addEventListener('click', closeShare);
-document.getElementById('temaMo').querySelector('.tema-bg').addEventListener('click', closeTema);
 
 showHome();
 </script>
