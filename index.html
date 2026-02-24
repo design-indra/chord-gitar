@@ -171,8 +171,8 @@ input:focus, select:focus { border-color:var(--p); }
 
 /* TASBIH */
 .tsb-wrap { display:flex; flex-direction:column; align-items:center; padding:10px 0 20px; }
-.tsb-circle { width:170px; height:170px; border-radius:50%; background:var(--gm); border:4px solid var(--s); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 8px 30px rgba(27,77,62,.3); user-select:none; }
-.tsb-circle:active { transform:scale(.95); }
+.tsb-circle { width:170px; height:170px; border-radius:50%; background:var(--gm); border:4px solid var(--s); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 8px 30px rgba(27,77,62,.3); user-select:none; -webkit-user-select:none; touch-action:manipulation; transition:transform .08s,box-shadow .08s; }
+.tsb-circle:active { transform:scale(.93); box-shadow:0 3px 12px rgba(27,77,62,.2); }
 .tsb-num { font-family:'Playfair Display',serif; font-size:54px; color:#fff; font-weight:700; line-height:1; }
 .tsb-lbl { font-size:11px; color:rgba(255,255,255,.7); margin-top:4px; }
 .tsb-ar { font-family:'Amiri',serif; font-size:22px; color:var(--pd); direction:rtl; text-align:center; margin:16px 0 4px; }
@@ -762,7 +762,7 @@ function showTasbih() {
 
   var h = '<div class="stl">📿 Tasbih Digital</div>'
     + '<div class="tsb-wrap">'
-    + '<div class="tsb-circle" onclick="ketukTasbih()">'
+    + '<div class="tsb-circle" id="tsbCircle" ontouchstart="ketukTasbih();return false;" onclick="ketukTasbih()">'
     + '<div class="tsb-num" id="tNum">' + tsbCount + '</div>'
     + '<div class="tsb-lbl">Tap untuk zikir</div>'
     + '</div>'
@@ -798,13 +798,33 @@ function ketukTasbih() {
   var tgtEl  = document.getElementById('tTgt');
   if (numEl)  numEl.textContent = tsbCount;
   if (fillEl) fillEl.style.width = pct + '%';
-  if (tgtEl)  tgtEl.textContent = 'Target: ' + z.tgt + 'x ' + (tsbCount >= z.tgt ? '✅' : '');
-  if (tsbCount === z.tgt) {
-    toast('🎉 Alhamdulillah! Target tercapai!');
-    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+
+  // Cek milestone: tiap 10x dan target
+  var isDone = tsbCount >= z.tgt;
+  var isMile = tsbCount % 10 === 0;
+
+  if (tgtEl) tgtEl.textContent = 'Target: ' + z.tgt + 'x ' + (isDone ? '✅' : '');
+
+  // Vibrate: berbeda pola untuk normal / milestone / selesai
+  if (window.navigator && navigator.vibrate) {
+    if (isDone && tsbCount === z.tgt) {
+      // Target tercapai: pola panjang-pendek-panjang
+      navigator.vibrate([150, 80, 150, 80, 250]);
+      toast('🎉 Alhamdulillah! ' + tsbCount + 'x tercapai!');
+    } else if (isMile) {
+      // Tiap 10x: 2 ketukan
+      navigator.vibrate([60, 40, 60]);
+    } else {
+      // Ketukan biasa: pendek tegas
+      navigator.vibrate(40);
+    }
   } else {
-    if (navigator.vibrate) navigator.vibrate(25);
+    // Fallback tanpa vibrate: efek audio klik (opsional)
+    if (isDone && tsbCount === z.tgt) {
+      toast('🎉 Alhamdulillah! ' + tsbCount + 'x tercapai!');
+    }
   }
+
   try { localStorage.setItem('hd_tc', tsbCount); } catch(e) {}
 }
 
