@@ -22,18 +22,19 @@
   --r:18px; --rs:12px;
 }
 /* ── TEMA WARNA ── */
-.t-biru  { --p:#2980B9; --pd:#1A5276; --pl:#AED6F1; --gm:linear-gradient(135deg,#2980B9,#1A5276); --bg:#EBF5FB; --tx:#1A3A4A; --txm:#7FB3CC; }
-.t-ungu  { --p:#8E44AD; --pd:#6C3483; --pl:#D7BDE2; --gm:linear-gradient(135deg,#8E44AD,#6C3483); --bg:#F5EEF8; --tx:#3B1A4A; --txm:#A97CC0; }
-.t-coklat{ --p:#A0522D; --pd:#7B3F00; --pl:#E8C9A0; --gm:linear-gradient(135deg,#A0522D,#7B3F00); --bg:#FDF5E8; --tx:#3E1F00; --txm:#B8895A; }
-.t-merah { --p:#C0392B; --pd:#922B21; --pl:#F1948A; --gm:linear-gradient(135deg,#C0392B,#922B21); --bg:#FDEDEC; --tx:#4A1010; --txm:#C0776E; }
-.t-tosca { --p:#17A589; --pd:#0E6655; --pl:#A2D9CE; --gm:linear-gradient(135deg,#17A589,#0E6655); --bg:#E8F8F5; --tx:#0E3D33; --txm:#6BB8AC; }
-/* tema dark tetap override */
+.t-biru   { --p:#2980B9; --pd:#1A5276; --pl:#AED6F1; --gm:linear-gradient(135deg,#2980B9,#1A5276); --bg:#EBF5FB; --tx:#1A3A4A; --txm:#7FB3CC; }
+.t-ungu   { --p:#8E44AD; --pd:#6C3483; --pl:#D7BDE2; --gm:linear-gradient(135deg,#8E44AD,#6C3483); --bg:#F5EEF8; --tx:#3B1A4A; --txm:#A97CC0; }
+.t-coklat { --p:#A0522D; --pd:#7B3F00; --pl:#E8C9A0; --gm:linear-gradient(135deg,#A0522D,#7B3F00); --bg:#FDF5E8; --tx:#3E1F00; --txm:#B8895A; }
+.t-merah  { --p:#C0392B; --pd:#922B21; --pl:#F1948A; --gm:linear-gradient(135deg,#C0392B,#922B21); --bg:#FDEDEC; --tx:#4A1010; --txm:#C0776E; }
+.t-tosca  { --p:#17A589; --pd:#0E6655; --pl:#A2D9CE; --gm:linear-gradient(135deg,#17A589,#0E6655); --bg:#E8F8F5; --tx:#0E3D33; --txm:#6BB8AC; }
+
+/* Override header background langsung agar tema langsung terlihat */
 .dk { --bg:#0D1F18; --card:#162B22; --p:#4DBD8A; --pd:#6DDAA4; --pl:#2A5040; --s:#E8C15A; --tx:#D8EEE6; --txm:#7AAA90; }
-.t-biru.dk  { --bg:#0A1929; --card:#112233; --p:#5DADE2; --pd:#85C1E9; --pl:#1A3A5C; }
-.t-ungu.dk  { --bg:#1A0A29; --card:#2D1145; --p:#BB8FCE; --pd:#D2B4DE; --pl:#4A1A6C; }
-.t-coklat.dk{ --bg:#1C1004; --card:#2D1A00; --p:#C49A6C; --pd:#E8C49A; --pl:#5C3300; }
-.t-merah.dk { --bg:#1C0A0A; --card:#2D1111; --p:#E57373; --pd:#EF9A9A; --pl:#5C1A1A; }
-.t-tosca.dk { --bg:#041C17; --card:#082E24; --p:#4DD0B8; --pd:#80E8D4; --pl:#0E4A3C; }
+.t-biru.dk   { --bg:#0A1929; --card:#112233; --p:#5DADE2; --pd:#85C1E9; --pl:#1A3A5C; }
+.t-ungu.dk   { --bg:#1A0A29; --card:#2D1145; --p:#BB8FCE; --pd:#D2B4DE; --pl:#4A1A6C; }
+.t-coklat.dk { --bg:#1C1004; --card:#2D1A00; --p:#C49A6C; --pd:#E8C49A; --pl:#5C3300; }
+.t-merah.dk  { --bg:#1C0A0A; --card:#2D1111; --p:#E57373; --pd:#EF9A9A; --pl:#5C1A1A; }
+.t-tosca.dk  { --bg:#041C17; --card:#082E24; --p:#4DD0B8; --pd:#80E8D4; --pl:#0E4A3C; }
 
 /* ── TEMA MODAL ── */
 .tema-modal { position:fixed; inset:0; z-index:3500; pointer-events:none; opacity:0; transition:opacity .25s; }
@@ -61,13 +62,7 @@
   animation:fu .3s ease;
 }
 @keyframes fu { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
-.hbox-header {
-  background:var(--gm);
-  padding:10px 15px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
+.hbox-/* header duplikat dihapus */
 .hbox-num {
   display:inline-flex; align-items:center; justify-content:center;
   width:30px; height:30px; background:rgba(255,255,255,.2);
@@ -97,7 +92,21 @@
 body { font-family:'Tajawal',sans-serif; background:var(--bg); color:var(--tx); transition:background .3s,color .3s; padding-bottom:110px; overflow-x:hidden; min-height:100vh; }
 
 /* HEADER */
-header { background:var(--gm); color:#fff; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:1000; border-bottom:3px solid var(--s); box-shadow:0 4px 20px rgba(0,0,0,.2); }
+header {
+  background:var(--gm);
+  color:#fff;
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  border-bottom:3px solid var(--s);
+  box-shadow:0 6px 24px rgba(0,0,0,.22);
+  border-radius:0 0 22px 22px;
+  isolation:isolate;
+}
 .logo { display:flex; align-items:center; gap:10px; }
 .logo-ic { width:36px; height:36px; background:var(--gg); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; }
 .logo-t { font-family:'Playfair Display',serif; font-size:17px; letter-spacing:1px; }
@@ -254,6 +263,25 @@ input:focus, select:focus { border-color:var(--p); }
 
 /* TOAST */
 #toast { position:fixed; bottom:105px; left:50%; transform:translateX(-50%); background:#1B4D3E; color:#fff; padding:10px 20px; border-radius:25px; font-size:13px; z-index:9999; font-family:'Tajawal',sans-serif; box-shadow:0 4px 15px rgba(0,0,0,.25); transition:opacity .3s; white-space:nowrap; max-width:90vw; text-align:center; opacity:0; pointer-events:none; }
+
+/* ══ TEMA OVERRIDE — harus di akhir agar menang ══ */
+.t-biru   header { background:linear-gradient(135deg,#2980B9,#1A5276) !important; border-bottom-color:#5DADE2 !important; }
+.t-ungu   header { background:linear-gradient(135deg,#8E44AD,#6C3483) !important; border-bottom-color:#BB8FCE !important; }
+.t-coklat header { background:linear-gradient(135deg,#A0522D,#7B3F00) !important; border-bottom-color:#E8C49A !important; }
+.t-merah  header { background:linear-gradient(135deg,#C0392B,#922B21) !important; border-bottom-color:#F1948A !important; }
+.t-tosca  header { background:linear-gradient(135deg,#17A589,#0E6655) !important; border-bottom-color:#4DD0B8 !important; }
+
+.t-biru.dk   header { background:linear-gradient(135deg,#1A5276,#0A1929) !important; }
+.t-ungu.dk   header { background:linear-gradient(135deg,#6C3483,#1A0A29) !important; }
+.t-coklat.dk header { background:linear-gradient(135deg,#7B3F00,#1C1004) !important; }
+.t-merah.dk  header { background:linear-gradient(135deg,#922B21,#1C0A0A) !important; }
+.t-tosca.dk  header { background:linear-gradient(135deg,#0E6655,#041C17) !important; }
+
+.t-biru   .ni.on, .t-biru   .logo-t { color:#2980B9; }
+.t-ungu   .ni.on, .t-ungu   .logo-t { color:#8E44AD; }
+.t-coklat .ni.on, .t-coklat .logo-t { color:#A0522D; }
+.t-merah  .ni.on, .t-merah  .logo-t { color:#C0392B; }
+.t-tosca  .ni.on, .t-tosca  .logo-t { color:#17A589; }
 </style>
 </head>
 <body>
@@ -269,9 +297,9 @@ input:focus, select:focus { border-color:var(--p); }
   </div>
   <div class="hdr-r">
     <button class="bic" id="langBtn" onclick="toggleLang()">🇮🇩</button>
-    <button class="bic" onclick="openTema()" title="Tema Warna">🎨</button>
-    <button class="bic" onclick="toggleTheme()" title="Mode Gelap">🌓</button>
-    <button class="bic" onclick="openMenu()">☰</button>
+    <button class="bic" id="temaBtn" onclick="openTema()" title="Tema Warna">🎨</button>
+    <button class="bic" id="themeBtn" onclick="toggleTheme()" title="Mode Gelap">🌓</button>
+    <button class="bic" id="menuBtn" onclick="openMenu()">☰</button>
   </div>
 </header>
 
@@ -1211,16 +1239,22 @@ function openTema() {
 
 function pilihTema(id) {
   applyTema(id);
-  // Update grid tampilan
+  // Update meta theme-color
+  var picked = null;
+  for (var i=0; i<TEMAS.length; i++) { if (TEMAS[i].id === id) { picked = TEMAS[i]; break; } }
+  if (!picked) picked = TEMAS[0];
+  var mc = document.querySelector('meta[name="theme-color"]');
+  if (mc) mc.setAttribute('content', picked.grad[1]);
+  // Update grid tampilan centang
   var opts = document.querySelectorAll('.tema-opt');
-  TEMAS.forEach(function(t, i) {
-    if (opts[i]) {
-      opts[i].classList.toggle('aktif', t.id === id);
-      var nm = opts[i].querySelector('.tema-nm');
-      if (nm) nm.textContent = t.nm + (t.id === id ? ' ✓' : '');
+  for (var j=0; j<TEMAS.length; j++) {
+    if (opts[j]) {
+      opts[j].classList.toggle('aktif', TEMAS[j].id === id);
+      var nm = opts[j].querySelector('.tema-nm');
+      if (nm) nm.textContent = TEMAS[j].nm + (TEMAS[j].id === id ? ' ✓' : '');
     }
-  });
-  toast('🎨 Tema ' + (TEMAS.find(function(t){return t.id===id;})||TEMAS[0]).nm + ' dipilih!');
+  }
+  toast('🎨 Tema ' + picked.nm + ' dipilih!');
 }
 
 function closeTema() {
@@ -1233,6 +1267,18 @@ if (curTema) applyTema(curTema);
 // ═══════════════════════════════════════════
 // INIT — dipanggil paling terakhir
 // ═══════════════════════════════════════════
+
+// Bind semua tombol header via addEventListener (lebih reliable di semua browser)
+document.getElementById('langBtn').addEventListener('click', toggleLang);
+document.getElementById('temaBtn').addEventListener('click', openTema);
+document.getElementById('themeBtn').addEventListener('click', toggleTheme);
+document.getElementById('menuBtn').addEventListener('click', openMenu);
+
+// Bind side menu close button
+document.querySelector('.smb').addEventListener('click', closeMenu);
+document.getElementById('shareMo').querySelector('.shmb').addEventListener('click', closeShare);
+document.getElementById('temaMo').querySelector('.tema-bg').addEventListener('click', closeTema);
+
 showHome();
 </script>
 </body>
