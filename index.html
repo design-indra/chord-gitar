@@ -21,9 +21,77 @@
   --shm:0 6px 20px rgba(27,77,62,.12);
   --r:18px; --rs:12px;
 }
-.dk {
-  --bg:#0D1F18; --card:#162B22; --p:#4DBD8A; --pd:#6DDAA4;
-  --pl:#2A5040; --s:#E8C15A; --tx:#D8EEE6; --txm:#7AAA90;
+/* ── TEMA WARNA ── */
+.t-biru  { --p:#2980B9; --pd:#1A5276; --pl:#AED6F1; --gm:linear-gradient(135deg,#2980B9,#1A5276); --bg:#EBF5FB; --tx:#1A3A4A; --txm:#7FB3CC; }
+.t-ungu  { --p:#8E44AD; --pd:#6C3483; --pl:#D7BDE2; --gm:linear-gradient(135deg,#8E44AD,#6C3483); --bg:#F5EEF8; --tx:#3B1A4A; --txm:#A97CC0; }
+.t-coklat{ --p:#A0522D; --pd:#7B3F00; --pl:#E8C9A0; --gm:linear-gradient(135deg,#A0522D,#7B3F00); --bg:#FDF5E8; --tx:#3E1F00; --txm:#B8895A; }
+.t-merah { --p:#C0392B; --pd:#922B21; --pl:#F1948A; --gm:linear-gradient(135deg,#C0392B,#922B21); --bg:#FDEDEC; --tx:#4A1010; --txm:#C0776E; }
+.t-tosca { --p:#17A589; --pd:#0E6655; --pl:#A2D9CE; --gm:linear-gradient(135deg,#17A589,#0E6655); --bg:#E8F8F5; --tx:#0E3D33; --txm:#6BB8AC; }
+/* tema dark tetap override */
+.dk { --bg:#0D1F18; --card:#162B22; --p:#4DBD8A; --pd:#6DDAA4; --pl:#2A5040; --s:#E8C15A; --tx:#D8EEE6; --txm:#7AAA90; }
+.t-biru.dk  { --bg:#0A1929; --card:#112233; --p:#5DADE2; --pd:#85C1E9; --pl:#1A3A5C; }
+.t-ungu.dk  { --bg:#1A0A29; --card:#2D1145; --p:#BB8FCE; --pd:#D2B4DE; --pl:#4A1A6C; }
+.t-coklat.dk{ --bg:#1C1004; --card:#2D1A00; --p:#C49A6C; --pd:#E8C49A; --pl:#5C3300; }
+.t-merah.dk { --bg:#1C0A0A; --card:#2D1111; --p:#E57373; --pd:#EF9A9A; --pl:#5C1A1A; }
+.t-tosca.dk { --bg:#041C17; --card:#082E24; --p:#4DD0B8; --pd:#80E8D4; --pl:#0E4A3C; }
+
+/* ── TEMA MODAL ── */
+.tema-modal { position:fixed; inset:0; z-index:3500; pointer-events:none; opacity:0; transition:opacity .25s; }
+.tema-modal.on { pointer-events:all; opacity:1; }
+.tema-bg { position:absolute; inset:0; background:rgba(0,0,0,.55); }
+.tema-panel { position:absolute; bottom:0; left:0; right:0; background:var(--card); border-radius:28px 28px 0 0; padding:24px 20px 30px; transform:translateY(100%); transition:transform .3s cubic-bezier(.4,0,.2,1); }
+.tema-modal.on .tema-panel { transform:translateY(0); }
+.tema-title { font-family:'Playfair Display',serif; font-size:16px; text-align:center; margin-bottom:6px; }
+.tema-sub { font-size:11px; color:var(--txm); text-align:center; margin-bottom:18px; }
+.tema-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
+.tema-opt { border-radius:14px; padding:14px 8px; text-align:center; cursor:pointer; border:2.5px solid transparent; transition:all .2s; }
+.tema-opt.aktif { border-color:var(--s); transform:scale(1.04); }
+.tema-opt:active { transform:scale(.97); }
+.tema-swatch { width:44px; height:44px; border-radius:50%; margin:0 auto 7px; box-shadow:0 3px 10px rgba(0,0,0,.2); }
+.tema-nm { font-size:11px; font-weight:700; color:var(--tx); }
+
+/* ── KARTU HADIS MODERN ── */
+.hbox {
+  background:var(--card);
+  border-radius:20px;
+  margin-bottom:14px;
+  overflow:hidden;
+  box-shadow:0 4px 16px rgba(0,0,0,.07);
+  border:1px solid rgba(0,0,0,.05);
+  animation:fu .3s ease;
+}
+@keyframes fu { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+.hbox-header {
+  background:var(--gm);
+  padding:10px 15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.hbox-num {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:30px; height:30px; background:rgba(255,255,255,.2);
+  color:#fff; border-radius:50%; font-size:12px; font-weight:700;
+  border:1.5px solid rgba(255,255,255,.4);
+}
+.hbox-tag {
+  background:rgba(201,168,76,.3); color:var(--sl);
+  padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700;
+  border:1px solid rgba(201,168,76,.4);
+}
+.hbox-body { padding:16px; }
+.arab {
+  font-family:'Amiri',serif; font-size:24px; direction:rtl;
+  line-height:2.3; text-align:right; color:var(--pd);
+  margin-bottom:12px; padding:12px;
+  background:linear-gradient(135deg,rgba(var(--p-rgb,61,153,112),.06),rgba(201,168,76,.06));
+  border-radius:14px; border-right:3px solid var(--s);
+}
+.htx { font-size:13px; line-height:1.85; color:var(--txm); }
+.hacts {
+  display:flex; gap:6px; margin-top:12px;
+  padding-top:10px; border-top:1px solid rgba(0,0,0,.06);
+  flex-wrap:wrap;
 }
 * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; margin:0; padding:0; }
 body { font-family:'Tajawal',sans-serif; background:var(--bg); color:var(--tx); transition:background .3s,color .3s; padding-bottom:110px; overflow-x:hidden; min-height:100vh; }
@@ -107,13 +175,7 @@ header { background:var(--gm); color:#fff; padding:14px 16px; display:flex; alig
 .nb.rd { background:var(--pl); border-color:var(--p); }
 
 /* HADIS BOX */
-.hbox { background:var(--card); padding:18px; border-radius:var(--r); margin-bottom:11px; border-bottom:4px solid var(--s); box-shadow:var(--sh); animation:fu .3s ease; }
-@keyframes fu { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
-.hbadge { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; background:var(--gm); color:#fff; border-radius:50%; font-size:12px; font-weight:700; float:left; margin-right:10px; margin-top:1px; }
-.htag { display:inline-block; background:rgba(201,168,76,.12); color:var(--s); border:1px solid rgba(201,168,76,.3); padding:2px 9px; border-radius:20px; font-size:11px; font-weight:600; float:right; }
-.arab { font-family:'Amiri',serif; font-size:23px; direction:rtl; line-height:2.3; text-align:right; color:var(--pd); clear:both; margin-bottom:11px; padding:11px; background:linear-gradient(135deg,rgba(61,153,112,.05),rgba(201,168,76,.05)); border-radius:var(--rs); border-right:3px solid var(--s); }
-.htx { font-size:13px; line-height:1.8; color:var(--txm); border-top:1px dashed rgba(0,0,0,.08); padding-top:9px; }
-.hacts { display:flex; gap:6px; margin-top:9px; flex-wrap:wrap; }
+/* hbox diganti ke desain baru — lihat di atas */
 .hbtn { flex:1; min-width:55px; padding:7px 4px; border:1.5px solid var(--pl); background:transparent; color:var(--p); border-radius:var(--rs); font-size:11px; cursor:pointer; transition:all .2s; font-family:'Tajawal',sans-serif; font-weight:600; }
 .hbtn:active { background:var(--p); color:#fff; border-color:var(--p); }
 .hbtn.bmd { background:rgba(201,168,76,.12); border-color:var(--s); color:var(--s); }
@@ -207,7 +269,8 @@ input:focus, select:focus { border-color:var(--p); }
   </div>
   <div class="hdr-r">
     <button class="bic" id="langBtn" onclick="toggleLang()">🇮🇩</button>
-    <button class="bic" onclick="toggleTheme()">🌓</button>
+    <button class="bic" onclick="openTema()" title="Tema Warna">🎨</button>
+    <button class="bic" onclick="toggleTheme()" title="Mode Gelap">🌓</button>
     <button class="bic" onclick="openMenu()">☰</button>
   </div>
 </header>
@@ -236,6 +299,17 @@ input:focus, select:focus { border-color:var(--p); }
     <div class="smi" onclick="window.open('https://islamicdigitalapp.blogspot.com')"><div class="sm-ic">🌐</div><div><div style="font-weight:700;">Website</div></div></div>
     <div class="smd"></div>
     <div style="padding:10px;text-align:center;font-size:11px;color:var(--txm);">v6.0 · © 2025 HadisDigital<br><span style="color:var(--p);font-style:italic;">Jazakumullah Khairan</span></div>
+  </div>
+</div>
+
+<!-- TEMA MODAL -->
+<div class="tema-modal" id="temaMo">
+  <div class="tema-bg" onclick="closeTema()"></div>
+  <div class="tema-panel">
+    <div class="tema-title">🎨 Pilih Tema Warna</div>
+    <div class="tema-sub">Sentuh untuk mengganti tema aplikasi</div>
+    <div class="tema-grid" id="temaGrid"></div>
+    <button style="width:100%;padding:12px;background:var(--gm);color:#fff;border:none;border-radius:var(--rs);font-family:'Tajawal',sans-serif;font-weight:700;font-size:14px;cursor:pointer;" onclick="closeTema()">✓ Selesai</button>
   </div>
 </div>
 
@@ -574,15 +648,18 @@ function loadBook(id, fullName, total, page) {
         var isBM = false; for(var _i=0;_i<BM.length;_i++){if(BM[_i].key===key){isBM=true;break;}}
         var tx = (LANG === 'en' && STORE[key].en) ? STORE[key].en : item.id;
         h += '<div class="hbox" id="h' + item.number + '">'
-          + '<div class="hbadge">' + item.number + '</div>'
-          + '<div class="htag">' + fullName.replace('HR. ', '') + '</div>'
+          + '<div class="hbox-header">'
+          + '<div class="hbox-num">' + item.number + '</div>'
+          + '<div class="hbox-tag">' + fullName.replace('HR. ', '') + '</div>'
+          + '</div>'
+          + '<div class="hbox-body">'
           + '<div class="arab">' + item.arab + '</div>'
           + '<p class="htx">' + tx + '</p>'
           + '<div class="hacts">'
           + '<button class="hbtn ' + (isBM ? 'bmd' : '') + '" id="bm_' + key + '" data-key="' + key + '" onclick="toggleBM(this.dataset.key)">' + (isBM ? '🔖 Tersimpan' : '🔖 Simpan') + '</button>'
           + '<button class="hbtn" data-key="' + key + '" onclick="openShare(getShareTxt(this.dataset.key))">📤 Share</button>'
           + '<button class="hbtn" data-key="' + key + '" onclick="doCopy(getShareTxt(this.dataset.key))">📋 Salin</button>'
-          + '</div></div>';
+          + '</div></div></div>';
       });
 
       h += pNav();
@@ -643,15 +720,15 @@ function doSearchNum() {
       STORE[key] = { bookName: bName, num: item.number, arab: item.arab, id: item.id, en: '' };
       var isBM = false; for(var _i=0;_i<BM.length;_i++){if(BM[_i].key===key){isBM=true;break;}}
       res.innerHTML = '<div class="hbox">'
-        + '<div class="hbadge">' + item.number + '</div>'
-        + '<div class="htag">' + bName.replace('HR. ', '') + '</div>'
+        + '<div class="hbox-header"><div class="hbox-num">' + item.number + '</div><div class="hbox-tag">' + bName.replace('HR. ', '') + '</div></div>'
+        + '<div class="hbox-body">'
         + '<div class="arab">' + item.arab + '</div>'
         + '<p class="htx">' + item.id + '</p>'
         + '<div class="hacts">'
         + '<button class="hbtn ' + (isBM ? 'bmd' : '') + '" id="bm_' + key + '" data-key="' + key + '" onclick="toggleBM(this.dataset.key)">' + (isBM ? '🔖 Tersimpan' : '🔖 Simpan') + '</button>'
         + '<button class="hbtn" data-key="' + key + '" onclick="openShare(getShareTxt(this.dataset.key))">📤 Share</button>'
         + '<button class="hbtn" data-key="' + key + '" onclick="doCopy(getShareTxt(this.dataset.key))">📋 Salin</button>'
-        + '</div></div>';
+        + '</div></div></div>';
     })
     .catch(function() {
       res.innerHTML = '<div class="ecard"><b>Hadis tidak ditemukan</b><p style="color:var(--txm);font-size:13px;">Pastikan nomor sesuai kitab.</p></div>';
@@ -718,14 +795,14 @@ function showHarian() {
     var t  = LANG === 'en' ? item.en : item.id;
     var st = item.arab + '\n\n"' + t + '"\n\n(' + item.src + ')';
     h += '<div class="hbox">'
-      + '<div class="hbadge">' + (i+1) + '</div>'
-      + '<div class="htag">' + item.src.replace('HR. ', '') + '</div>'
+      + '<div class="hbox-header"><div class="hbox-num">' + (i+1) + '</div><div class="hbox-tag">' + item.src.replace('HR. ', '') + '</div></div>'
+      + '<div class="hbox-body">'
       + '<div class="arab">' + item.arab + '</div>'
       + '<p class="htx">' + t + '</p>'
       + '<div class="hacts">'
       + '<button class="hbtn" onclick="harianShare(' + i + ')">📤 Share</button>'
       + '<button class="hbtn" onclick="harianCopy(' + i + ')">📋 Salin</button>'
-      + '</div></div>';
+      + '</div></div></div>';
   });
   render(h);
 }
@@ -923,16 +1000,16 @@ function showBookmark() {
       var saved = bm.saved || '';
       var st = bm.arab + '\n\n"' + tx + '"\n\n(' + bookName + ' No. ' + num + ')';
       h += '<div class="hbox">'
-        + '<div class="hbadge">' + num + '</div>'
-        + '<div class="htag">' + bookName.replace('HR. ', '') + '</div>'
+        + '<div class="hbox-header"><div class="hbox-num">' + num + '</div><div class="hbox-tag">' + bookName.replace('HR. ', '') + '</div></div>'
+        + '<div class="hbox-body">'
         + '<div class="arab">' + bm.arab + '</div>'
         + '<p class="htx">' + tx + '</p>'
-        + '<div style="font-size:11px;color:var(--txm);margin:6px 0;">📅 ' + saved + '</div>'
+        + '<div style="font-size:11px;color:var(--txm);margin:6px 0 2px;">📅 ' + saved + '</div>'
         + '<div class="hacts">'
         + '<button class="hbtn" data-key="' + bm.key + '" onclick="bmShare(this.dataset.key)">📤 Share</button>'
         + '<button class="hbtn" data-key="' + bm.key + '" onclick="bmCopy(this.dataset.key)">📋 Salin</button>'
         + '<button class="hbtn red" data-key="' + bm.key + '" onclick="hapusBM(this.dataset.key)">🗑️ Hapus</button>'
-        + '</div></div>';
+        + '</div></div></div>';
     });
   }
   render(h);
@@ -1092,6 +1169,66 @@ function bmCopy(key) {
   var tx = (LANG === 'en' && bm.en) ? bm.en : bm.id;
   doCopy(bm.arab + '\n\n"' + tx + '"\n\n(' + bm.bookName + ' No. ' + bm.num + ')');
 }
+
+
+// ═══════════════════════════════════════════
+// TEMA WARNA
+// ═══════════════════════════════════════════
+var TEMAS = [
+  { id:'',          nm:'Hijau',   grad:['#2E7D5E','#1B4D3E'], acc:'#3D9970' },
+  { id:'t-biru',    nm:'Biru',    grad:['#2980B9','#1A5276'], acc:'#2980B9' },
+  { id:'t-ungu',    nm:'Ungu',    grad:['#8E44AD','#6C3483'], acc:'#8E44AD' },
+  { id:'t-coklat',  nm:'Coklat',  grad:['#A0522D','#7B3F00'], acc:'#A0522D' },
+  { id:'t-merah',   nm:'Merah',   grad:['#C0392B','#922B21'], acc:'#C0392B' },
+  { id:'t-tosca',   nm:'Tosca',   grad:['#17A589','#0E6655'], acc:'#17A589' }
+];
+var curTema = '';
+try { curTema = localStorage.getItem('hd_tema') || ''; } catch(e) {}
+
+function applyTema(id) {
+  // Hapus semua class tema
+  TEMAS.forEach(function(t) { if (t.id) document.body.classList.remove(t.id); });
+  if (id) document.body.classList.add(id);
+  curTema = id;
+  try { localStorage.setItem('hd_tema', id); } catch(e) {}
+}
+
+function openTema() {
+  // Render grid pilihan tema
+  var grid = document.getElementById('temaGrid');
+  if (!grid) return;
+  var html = '';
+  TEMAS.forEach(function(t) {
+    var isAktif = curTema === t.id;
+    html += '<div class="tema-opt' + (isAktif ? ' aktif' : '') + '" data-tid="' + t.id + '" onclick="pilihTema(this.dataset.tid)">'
+      + '<div class="tema-swatch" style="background:linear-gradient(135deg,' + t.grad[0] + ',' + t.grad[1] + ');"></div>'
+      + '<div class="tema-nm">' + t.nm + (isAktif ? ' ✓' : '') + '</div>'
+      + '</div>';
+  });
+  grid.innerHTML = html;
+  document.getElementById('temaMo').classList.add('on');
+}
+
+function pilihTema(id) {
+  applyTema(id);
+  // Update grid tampilan
+  var opts = document.querySelectorAll('.tema-opt');
+  TEMAS.forEach(function(t, i) {
+    if (opts[i]) {
+      opts[i].classList.toggle('aktif', t.id === id);
+      var nm = opts[i].querySelector('.tema-nm');
+      if (nm) nm.textContent = t.nm + (t.id === id ? ' ✓' : '');
+    }
+  });
+  toast('🎨 Tema ' + (TEMAS.find(function(t){return t.id===id;})||TEMAS[0]).nm + ' dipilih!');
+}
+
+function closeTema() {
+  document.getElementById('temaMo').classList.remove('on');
+}
+
+// Apply tema tersimpan saat load
+if (curTema) applyTema(curTema);
 
 // ═══════════════════════════════════════════
 // INIT — dipanggil paling terakhir
